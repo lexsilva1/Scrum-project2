@@ -1,3 +1,7 @@
+/*----------INDEX--------------*/
+/*
+**PARTE REGISTO A PARTIR LINHA 915 (PEDRO)
+*/
 :root {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -907,4 +911,21 @@ footer {
     width: 100%;
     margin: 0;
   }
+}
+/*---------------------PAGINA REGISTO (PEDRO)---------------------------------*/
+#registrySection{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+#registryValues{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: space-evenly;
+  color: var(--green3);
+  background-color: color-mix(in srgb, var(--light-grey), transparent 10%);
+  height: 23.75rem;
+  width: 18.75rem;
 }
