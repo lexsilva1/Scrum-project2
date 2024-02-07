@@ -929,3 +929,10 @@ footer {
   height: 23.75rem;
   width: 18.75rem;
 }
+/*----------------------------PAGINA DE EDIÇÃO----------------------*/
+
+#profilePicDiv{
+  width:200px;
+  height:200px;
+  background-color: blue;
+}
