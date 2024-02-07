@@ -15,23 +15,27 @@
         <!-- corpo da pagina-->
             <h1> novo registo de utilizador</h1>
             <label>First name</label>
-            <input type ="text" placeholder = "first Name">
+            <input type ="text" id="userFirstName" placeholder = "first Name">
             <label>Last name</label>
-            <input type ="text" placeholder = "Last Name">
+            <input type ="text" id="userLastName" placeholder = "Last Name">
             <label>Email</label>
-            <input type="text" placeholder ="Insert your email">
+            <input type="text" id="userEmail" placeholder ="Insert your email">
             <label>Username</label>
-            <input type ="text" placeholder = "Username">
+            <input type ="text" id="userUsername" placeholder = "Username">
             <!-- tipo password-->
             <label>Password</label>
-            <input type ="text" placeholder = "Password">
+            <input type ="password" id="userPassword" placeholder = "Password">
+            <!--para se ver a password-->
+            <input type ="checkbox"></button>
             <label>Re-write password</label>
-            <input type ="text" placeholder = "Re-write password">
+            <input type ="password" id="userRewrittenPassword" placeholder = "Re-write password">
+            <!--para se ver a password-->
+            <input type ="checkbox">ver pass</button>
             <div id ="registryButtons">
                 <!--botao submit-->
-                <button>submit</button>
+                <button id="submitRegistryButton">submit</button>
                 <!--cncel-->
-                <button>cancel</button>
+                <button id ="cancelRegistryButton">cancel</button>
             </div>
     <!--campos centrais-->
         </div>
@@ -41,6 +45,6 @@
     <footer>
 
     </footer>
-    
+    <script src="registry.js"></script>
 </body>
 </html>

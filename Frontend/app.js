@@ -13,3 +13,7 @@ document.getElementById('loginButton').addEventListener('click', function() {
         window.location.href = 'home.html';
     }
 });
+document.getElementById('registerButton').addEventListener('click',()=>{
+    window.location.href='registry.html';
+})
+//adicionar aqui a funcionalidade para ir para a pagina de registo
