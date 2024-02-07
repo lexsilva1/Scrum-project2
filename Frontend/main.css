@@ -936,3 +936,12 @@ footer {
   height:200px;
   background-color: blue;
 }
+
+#editUserValues{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+  width: fit-content;
+}
