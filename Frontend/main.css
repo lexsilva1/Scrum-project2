@@ -933,10 +933,15 @@ footer {
 
 #profilePicDiv{
   width:200px;
-  height:200px;
-  background-color: blue;
+  height:200px; 
+  text-align: center;
 }
-
+#editSection{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+}
 #editUserValues{
   display: flex;
   flex-direction: column;
@@ -944,4 +949,5 @@ footer {
   align-items: center;
   height: fit-content;
   width: fit-content;
+  text-align: center;
 }
