@@ -15,9 +15,10 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.Path;
-@Path("/activity")
+@Path("/task")
 public class TaskService {
     @Inject
+
     TaskBean taskBean;
     @GET
     @Path("/all")
