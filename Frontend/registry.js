@@ -1,44 +1,51 @@
 //objecto user
-let newUser={
-    Id : '',
-    Name: '',    
-    Email: '',
-    Username: '',
-    Password: '',
-};
-//funcionalidade dos botoes 
-document.getElementById('submitRegistryButton').addEventListener('click',()=>{
-    newUser.Name = document.getElementById('userFirstName').value.trim()+' '+document.getElementById('userLastName').value.trim();
-    newUser.Email = document.getElementById('userEmail').value.trim();
-    newUser.Username = document.getElementById('userUsername').value.trim();
-    newUser.Password = document.getElementById('userPassword').value.trim();
-    newUser.Id = 'user'+Math.floor(Math.random()*1000);
-    /*for (const [Key, value] of Object.entries(newUser)){
-        if (value == ''){
-            alert (Key + ' is empty');
-            break;
-        }*/
-        
+
+//funcionalidade dos botoes
+document.addEventListener('DOMContentLoaded',()=>{ 
+document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
+    e.preventDefault();
+    let newUser = {
+        id : 'user'+Math.floor(Math.random()*1000),
+        username : document.getElementById('userUsername').value.trim(),
+        name : document.getElementById('userFirstName').value.trim()+' '+document.getElementById('userLastName').value.trim(),
+        email : document.getElementById('userEmail').value.trim(),
+        password : document.getElementById('userPassword').value.trim(),
+        }
+        console.log(JSON.stringify(newUser));
+
+        postUser(newUser);
+        //window.location.href='index.html';
+    
+})
+})
+async function postUser(newUser){
+   
     if (newUser.Password != document.getElementById('userRewrittenPassword').value.trim()){
         alert('Passwords do not match');
     }
-    else{
-        postUser();
-        window.location.href='index.html';
-    }
-})
-async function postUser(){
-    const response = await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/add', {
-        method: 'POST',
-        headers: {
-            'Accept': '*/*',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newUser),
-    });
-    console.log(response);
-    return response.json();
+     // Send POST request with newUser data
+     try {
+         await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/add', {
+            method: 'POST',
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newUser),
+        }).then(function (response) {
+            if (response.status == 200) {
+            alert('user is added successfully :)');
+            addActivityToTable(activity);
+            } else {
+            alert('something went wrong :(');
+            }
+            });
 }
+catch (error) {
+    console.error('Error:', error);
+}
+}
+
 //carregar cancel leva à pagina login
 document.getElementById('cancelRegistryButton').addEventListener('click',()=>{
     window.location.href='index.html'

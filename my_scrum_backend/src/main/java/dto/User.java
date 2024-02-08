@@ -1,52 +1,55 @@
 package dto;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-@XmlRootElement(name = "User")
+@XmlRootElement
 public class User {
-    String Id;
-    String Username;
-    String Name;
-    String Email;
-    String Password;
+    String id;
+    String username;
+
+    String name;
+
+    String email;
+
+    String password;
     public User() {
     }
     public User(String id,String username, String name, String email, String password) {
-        Id = id;
-        Username = username;
-        Name = name;
-        Email = email;
-        Password = password;
+        this.id = id;
+        this.username = username;
+        this.name = name;
+        this.email = email;
+        this.password = password;
     }
     @XmlElement
     public String getId() {
-        return Id;
+        return id;
     }
     @XmlElement
     public String getName() {
-        return Name;
+        return name;
     }
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
     @XmlElement
     public String getEmail() {
-        return Email;
+        return email;
     }
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
     @XmlElement
     public String getPassword() {
-        return Password;
+        return password;
     }
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
     @XmlElement
     public String getUsername() {
-        return Username;
+        return username;
     }
     public void setUsername(String username) {
-        Username = username;
+        this.username = username;
     }
 }

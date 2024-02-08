@@ -29,6 +29,7 @@ public class UserService {
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(User a) {
+        System.out.println(a.getName());
         userBean.addUser(a);
         return Response.status(200).entity("A new user is created").build();
     }

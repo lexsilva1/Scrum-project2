@@ -19,8 +19,7 @@ public class UserBean {
         if(f.exists()){
             try {
                 FileReader filereader = new FileReader(f);
-                users = JsonbBuilder.create().fromJson(filereader, new
-                        ArrayList<User>() {}.getClass().getGenericSuperclass());
+                users = JsonbBuilder.create().fromJson(filereader, new ArrayList<User>() {}.getClass().getGenericSuperclass());
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
