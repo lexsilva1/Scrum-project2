@@ -914,33 +914,83 @@ footer {
 }
 /*---------------------PAGINA REGISTO (PEDRO)---------------------------------*/
 #registrySection{
-  display:flex;
-  align-items: center;
-  justify-content: center;
-}
-#registryValues{
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  justify-content: space-evenly;
+  margin:5px;
+  color:black;
   color: var(--green3);
   background-color: color-mix(in srgb, var(--light-grey), transparent 10%);
-  height: 23.75rem;
-  width: 18.75rem;
+  height: 24.50rem;
 }
-/*----------------------------PAGINA DE EDIÇÃO----------------------*/
 
 #profilePicDiv{
+  position:relative;
   width:200px;
-  height:200px; 
+  height: max-content; 
   overflow: hidden;
+}
+.inputs{
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  width: fit-content;
 }
 #profileImage{
   width:100%;
   height:100%; 
   object-fit: cover;
 }
+#registryButtons{
+  position: relative;
+  align-self: self-end;
+  height: fit-content;
+  width: fit-content;
+  
+}
+
+#registryButtons button{
+  font-size: larger;
+  position: relative;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
+  background-color: var(--doing);
+  color: var(--green3);
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;
+  height: 3.125rem;
+  width: 5rem;
+}
+#passwordDiv{
+  display: flex;
+  position: relative;
+  top:-60px;
+  left:240px;
+  align-self: self-end; 
+  align-items: center;
+  align-content: center;
+  font-size: large;
+  text-align: center;
+  height: fit-content;
+  width: fit-content;
+  
+}
+.password{
+  margin:5px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+
+
+
+
+
+/*----------------------------PAGINA DE EDIÇÃO----------------------*/
+
+
 #editSection{
   display: flex;
   flex-direction: column;
@@ -956,3 +1006,4 @@ footer {
   width: fit-content;
   text-align: center;
 }
+
