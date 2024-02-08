@@ -35,7 +35,6 @@ async function postUser(newUser){
         }).then(function (response) {
             if (response.status == 200) {
             alert('user is added successfully :)');
-            addActivityToTable(activity);
             } else {
             alert('something went wrong :(');
             }
