@@ -4,33 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel = "stylesheet" href ="main.css">
+    <script src="https://kit.fontawesome.com/977c7777a4.js" crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
 <body>
     <header>
+        <h4> Welcome new user!</h4>
         <!--header da pagina-->
     </header>
     <section id = registrySection>
         <div id = "registryValues">
+            <div id = "profilePicDiv">
+                <img id="profileImage" src ="Frontend/multimedia/avatar-1577909_1280.png" alt="Avatar">
+                <input id="photoUpload" type="file" name ="profilePhoto" placeholder="photo" required ="" capture>
+            </div>
+        </div>
         <!-- corpo da pagina-->
-            <h1> novo registo de utilizador</h1>
-            <label>First name</label>
-            <input type ="text" id="userFirstName" placeholder = "irst Name">
-            <label>Last name</label>
-            <input type ="text" id="userLastName" placeholder = "Last Name">
-            <label>Email</label>
-            <input type="text" id="userEmail" placeholder ="Insert your email">
-            <label>Username</label>
-            <input type ="text" id="userUsername" placeholder = "Username">
+            
+            <div class ="inputs">
+                <label>First name</label>
+                <input type ="text" id="userFirstName" placeholder = "First Name">
+                <label>Last name</label>
+                <input type ="text" id="userLastName" placeholder = "Last Name">
+                <label>Email</label>
+                <input type="text" id="userEmail" placeholder ="Insert your email">
+                <label>Username</label>
+                <input type ="text" id="userUsername" placeholder = "Username">
+                <label>Cellphone number</label>
+                <input type ="text" id="userNumber" placeholder = "Cellphone number">
+            </div>
             <!-- tipo password-->
-            <label>Password</label>
-            <input type ="password" id="userPassword" placeholder = "Password">
-            <!--para se ver a password-->
-            <input type ="checkbox"></button>
-            <label>Re-write password</label>
-            <input type ="password" id="userRewrittenPassword" placeholder = "Re-write password">
-            <!--para se ver a password-->
-            <input type ="checkbox">ver pass</button>
+            <div id ="passwordDiv">
+                <div class="password">
+                    <label>Password</label>
+                    <input type ="password" id="userPassword" placeholder = "Password">
+                    <i class="fa-regular fa-eye"></i>
+                </div>
+                <div class ="password">
+                    <label>Re-write password</label>
+                    <input type ="password" id="userRewrittenPassword" placeholder = "Re-write password">
+                    <i class="fa-regular fa-eye"></i>
+                </div>
+            </div>
             <div id ="registryButtons">
                 <!--botao submit-->
                 <button id="submitRegistryButton">submit</button>
@@ -38,12 +53,17 @@
                 <button id ="cancelRegistryButton">cancel</button>
             </div>
     <!--campos centrais-->
-        </div>
+        
 
         <!--botao submit e cncel-->
     </section>
     <footer>
-
+        <div class="footer-content">
+            <div class="label-left">&copy; José Alexandre Silva</div>
+            <div class="label-right">Programação Avançada em Java</div>
+            <div class="label-left">&copy; Pedro Monteiro</div>
+            <div class="label-right">Projeto 2</div>
+        </div>
     </footer>
     <script src="registry.js"></script>
 </body>

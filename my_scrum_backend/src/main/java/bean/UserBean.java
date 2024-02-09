@@ -73,16 +73,7 @@ public class UserBean {
             throw new RuntimeException(e);
         }
     }
-    public boolean checkUsername(User user){
-        for (int i = 0; i< users.size(); i++){
-            if (user.getUsername().equals(users.get(i).getUsername())){
-                System.out.println("username already exists");
-                return true;
-            }
-        }
-        System.out.println("username does not exist");
-        return false;
-    }
+
     //para cada parametro do user fazer confirmação
     public boolean nameIsBlank(User user){
         if (user.getName().trim().isBlank()){
@@ -113,4 +104,22 @@ public class UserBean {
         return false;
     }
 
+
+    public User login(String username, String password) {
+        for (User a : users) {
+            if (a.getUsername().equals(username) && a.getPassword().equals(password)) {
+                return a;
+            }
+        }
+        return null;
+    }
+
+    public boolean userExists(String username) {
+        for (User a : users) {
+            if (a.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -15,6 +15,8 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.StreamingOutput;
+
 @Path("/user")
 public class UserService {
     @Inject
@@ -29,18 +31,22 @@ public class UserService {
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(User a) {
-        System.out.println(a.getName());
+        boolean user = userBean.userExists(a.getUsername());
+        if (user) {
+            return Response.status(409).entity("User with this username is already exists").build();
+        }
         userBean.addUser(a);
         return Response.status(200).entity("A new user is created").build();
     }
 
-    @Path("/{id}")
+    @GET
+    @Path("/{username}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser(@PathParam("id")String id) {
-        User user = userBean.getUser(id);
-        if (user==null)
-            return Response.status(200).entity("User with this idea is not found").build();
-        return Response.status(200).entity(user).build();
+    public Response getUserByUsername(@PathParam("username")String username) {
+        boolean user = userBean.userExists(username);
+        if (!user)
+            return Response.status(404).entity("User with this username is not found").build();
+        return Response.status(200).build();
     }
     @DELETE
     @Path("/delete")
@@ -60,54 +66,17 @@ public class UserService {
             return Response.status(200).entity("User with this ID is not found").build();
         return Response.status(200).entity("updated").build();
     }
-    @POST
-    @Path("/checksUsername")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response checkUsername(User a){
-        if (userBean.checkUsername(a)){
-            return Response.status(200).entity("This username already exists").build();
-        } else {
-            return Response.status(404).entity("Username does not exist").build();
-        }
-    }
-    @POST
-    @Path("/nameIsBlank")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response nameIsBlank(User a){
-        if (userBean.nameIsBlank(a)){
-            return Response.status(404).entity("Name field is blank").build();
-        } else {
-            return Response.status(200).entity("This field is correct").build();
-        }
-    }
-    @POST
-    @Path("/emailIsBlank")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response emailIsBlank(User a){
-        if (userBean.emailIsBlank(a)){
-            return Response.status(404).entity("email field is blank").build();
-        } else {
-            return Response.status(200).entity("This field is correct").build();
-        }
-    }
-    @POST
-    @Path("/passwordIsBlank")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response passwordIsBlank(User a){
-        if (userBean.passwordIsBlank(a)){
-            return Response.status(404).entity("password field is blank").build();
-        } else {
-            return Response.status(200).entity("This field is correct").build();
-        }
-    }
-    @POST
-    @Path("/contactNumberIsBlank")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response contactNumberIsBlank(User a){
-        if (userBean.contactNumberIsBlank(a)){
-            return Response.status(404).entity("contact field is blank").build();
-        } else {
-            return Response.status(200).entity("Contact field is correct").build();
+
+    @GET
+    @Path("/login")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response login(@QueryParam("username") String username, @QueryParam("password") String password){
+        User user = userBean.login(username,password);
+        if (user==null) {
+            return Response.status(404).entity("User with this username and password is not found").build();
+        }else {
+            return Response.status(200).entity(user).build();
+
         }
     }
 }
