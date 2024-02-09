@@ -70,4 +70,44 @@ public class UserService {
             return Response.status(404).entity("Username does not exist").build();
         }
     }
+    @POST
+    @Path("/nameIsBlank")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response nameIsBlank(User a){
+        if (userBean.nameIsBlank(a)){
+            return Response.status(404).entity("Name field is blank").build();
+        } else {
+            return Response.status(200).entity("This field is correct").build();
+        }
+    }
+    @POST
+    @Path("/emailIsBlank")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response emailIsBlank(User a){
+        if (userBean.emailIsBlank(a)){
+            return Response.status(404).entity("email field is blank").build();
+        } else {
+            return Response.status(200).entity("This field is correct").build();
+        }
+    }
+    @POST
+    @Path("/passwordIsBlank")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response passwordIsBlank(User a){
+        if (userBean.passwordIsBlank(a)){
+            return Response.status(404).entity("password field is blank").build();
+        } else {
+            return Response.status(200).entity("This field is correct").build();
+        }
+    }
+    @POST
+    @Path("/contactNumberIsBlank")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response contactNumberIsBlank(User a){
+        if (userBean.contactNumberIsBlank(a)){
+            return Response.status(404).entity("contact field is blank").build();
+        } else {
+            return Response.status(200).entity("Contact field is correct").build();
+        }
+    }
 }
