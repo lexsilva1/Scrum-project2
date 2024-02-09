@@ -933,6 +933,12 @@ footer {
   flex-direction: column;
   height: fit-content;
   width: fit-content;
+  position:relative;
+  top:20px;
+  left: 490px;
+  bottom:50px;
+  padding: 15px;
+  margin: 10px;
 }
 #profileImage{
   width:100%;

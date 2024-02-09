@@ -12,12 +12,36 @@ document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
         password : document.getElementById('userPassword').value.trim(),
         }
         console.log(JSON.stringify(newUser));
-
-        postUser(newUser);
+        checkUsername(newUser);
+        //postUser(newUser);
         //window.location.href='index.html';
     
 })
 })
+async function checkUsername(newUser){
+    try{
+        await fetch ('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/checksUsername',{
+            method: 'POST',
+            headers:{
+                'Accept': '*/*',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newUser),
+        }).then(function(response){
+            console.log(response.status);
+            if (response.status == 200){
+                alert('Username already exists')
+            } else {
+                alert('username does not exist')
+            }
+        });
+        
+    } 
+    catch (error){
+        console.log('error:', error);
+    }
+}
+
 async function postUser(newUser){
    
     if (newUser.Password != document.getElementById('userRewrittenPassword').value.trim()){
