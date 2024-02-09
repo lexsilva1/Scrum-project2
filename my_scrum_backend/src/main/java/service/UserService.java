@@ -38,6 +38,7 @@ public class UserService {
         userBean.addUser(a);
         return Response.status(200).entity("A new user is created").build();
     }
+
     @GET
     @Path("/{username}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -65,6 +66,7 @@ public class UserService {
             return Response.status(200).entity("User with this ID is not found").build();
         return Response.status(200).entity("updated").build();
     }
+
     @GET
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
@@ -74,6 +76,7 @@ public class UserService {
             return Response.status(404).entity("User with this username and password is not found").build();
         }else {
             return Response.status(200).entity(user).build();
+
         }
     }
 }

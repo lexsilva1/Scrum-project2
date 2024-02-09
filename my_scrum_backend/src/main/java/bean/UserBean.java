@@ -73,6 +73,38 @@ public class UserBean {
             throw new RuntimeException(e);
         }
     }
+
+    //para cada parametro do user fazer confirmação
+    public boolean nameIsBlank(User user){
+        if (user.getName().trim().isBlank()){
+            System.out.println("User name is not valid");
+            return true;
+        }
+        return false;
+    }
+    public boolean emailIsBlank(User user){
+        if (user.getEmail().trim().isBlank()){
+            System.out.println("Email is not valid");
+            return true;
+        }
+        return false;
+    }
+    public boolean passwordIsBlank(User user){
+        if (user.getPassword().trim().isBlank()){
+            System.out.println("password is not valid");
+            return true;
+        }
+        return false;
+    }
+    public boolean contactNumberIsBlank(User user){
+        if (user.getContactNumber().trim().isBlank()){
+            System.out.println("contact is not valid");
+            return true;
+        }
+        return false;
+    }
+
+
     public User login(String username, String password) {
         for (User a : users) {
             if (a.getUsername().equals(username) && a.getPassword().equals(password)) {

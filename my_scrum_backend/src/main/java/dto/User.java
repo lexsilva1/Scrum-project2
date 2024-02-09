@@ -11,14 +11,16 @@ public class User {
     String email;
 
     String password;
+    String contactNumber;
     public User() {
     }
-    public User(String id,String username, String name, String email, String password) {
+    public User(String id,String username, String name, String email, String password, String contactNumber) {
         this.id = id;
         this.username = username;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.contactNumber = contactNumber;
     }
     @XmlElement
     public String getId() {
@@ -55,4 +57,7 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
+    @XmlElement
+    public String getContactNumber(){return contactNumber;}
+    public void setContactNumber(String contactNumber){this.contactNumber = contactNumber;}
 }
