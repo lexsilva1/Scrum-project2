@@ -15,6 +15,8 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.StreamingOutput;
+
 @Path("/user")
 public class UserService {
     @Inject
@@ -59,5 +61,16 @@ public class UserService {
         if (!updated)
             return Response.status(200).entity("User with this ID is not found").build();
         return Response.status(200).entity("updated").build();
+    }
+    @GET
+    @Path("/login")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response login(@QueryParam("username") String username, @QueryParam("password") String password){
+        User user = userBean.login(username,password);
+        if (user==null) {
+            return Response.status(404).entity("User with this username and password is not found").build();
+        }else {
+            return Response.status(200).entity(user).build();
+        }
     }
 }

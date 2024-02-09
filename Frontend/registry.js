@@ -4,6 +4,9 @@
 document.addEventListener('DOMContentLoaded',()=>{ 
 document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
     e.preventDefault();
+    if (document.getElementById('userPassword').value.trim() != document.getElementById('userRewrittenPassword').value.trim()){
+        alert('Passwords do not match');
+    }else{
     let newUser = {
         id : 'user'+Math.floor(Math.random()*1000),
         username : document.getElementById('userUsername').value.trim(),
@@ -11,6 +14,7 @@ document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
         email : document.getElementById('userEmail').value.trim(),
         password : document.getElementById('userPassword').value.trim(),
         }
+
         console.log(JSON.stringify(newUser));
 
         //verificação frontend de credenciais
@@ -162,12 +166,9 @@ async function checkUsername(newUser){
     }
 }
 
+
 async function postUser(newUser){
-   
-    if (newUser.Password != document.getElementById('userRewrittenPassword').value.trim()){
-        alert('Passwords do not match');
-    }
-     // Send POST request with newUser data
+    // Send POST request with newUser data
      try {
          await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/add', {
             method: 'POST',
@@ -188,8 +189,8 @@ catch (error) {
     console.error('Error:', error);
 }
 }
-
 //carregar cancel leva à pagina login
 document.getElementById('cancelRegistryButton').addEventListener('click',()=>{
     window.location.href='index.html'
 })
+
