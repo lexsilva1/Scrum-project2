@@ -31,18 +31,21 @@ public class UserService {
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(User a) {
-        System.out.println(a.getName());
+        boolean user = userBean.userExists(a.getUsername());
+        if (user) {
+            return Response.status(409).entity("User with this username is already exists").build();
+        }
         userBean.addUser(a);
         return Response.status(200).entity("A new user is created").build();
     }
     @GET
-    @Path("/{id}")
+    @Path("/{username}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser(@PathParam("id")String id) {
-        User user = userBean.getUser(id);
-        if (user==null)
-            return Response.status(200).entity("User with this idea is not found").build();
-        return Response.status(200).entity(user).build();
+    public Response getUserByUsername(@PathParam("username")String username) {
+        boolean user = userBean.userExists(username);
+        if (!user)
+            return Response.status(404).entity("User with this username is not found").build();
+        return Response.status(200).build();
     }
     @DELETE
     @Path("/delete")
