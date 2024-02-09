@@ -60,7 +60,7 @@ document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
         //postUser(newUser);
         //window.location.href='index.html';
     
-})
+}
 })
 async function contactNumberIsBlank(newUser){
     try{
