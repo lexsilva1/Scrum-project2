@@ -25,7 +25,7 @@ public class User {
         return id;
     }
     public void setId(String id) {
-        this.id = id;
+        this.id = "user".concat(String.valueOf(Double.parseDouble(Math.floor(Math.random()*1000)+"")));
     }
     @XmlElement
     public String getName() {

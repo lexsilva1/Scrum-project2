@@ -73,4 +73,23 @@ public class UserBean {
             throw new RuntimeException(e);
         }
     }
+    public User login(String username, String password) {
+        System.out.println(username);
+        for (User a : users) {
+            if (a.getUsername().equals(username) && a.getPassword().equals(password)) {
+                System.out.println(a.getUsername() + " " + a.getPassword());
+                return a;
+            }
+        }
+        return null;
+    }
+
+    public boolean userExists(String username) {
+        for (User a : users) {
+            if (a.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
