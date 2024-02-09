@@ -20,26 +20,64 @@ document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
                 emptyFields.push(key);
             }
         }
-        if (emptyFields.length>0){
-            for (const key of emptyFields){
-            console.log('Field ' + key + ' needs to be filled'); 
-            }
-        }
+        emptyFields.forEach(field =>{
+            console.log('Field ' + field + ' needs to be filled'); 
+            /*
+            const messageBox = document.createElement('div');
+            const message = document.createElement('span');
+            messageBox.appendChild(message);
+            message.textContent = 'Please fill this field';
+            message.style.color = 'wheat';*/
+        })
+
+        
         //password checks with rewritten password 
         const passwordCheck = newUser.password === document.getElementById('userRewrittenPassword').value;
         if (passwordCheck){
             console.log("password checks out");
         }
-        console.log(emptyFields);    
-        nameIsBlank(newUser);
-        passwordIsBlank(newUser);
-        emailIsBlank(newUser);
-        checkUsername(newUser);
+        console.log(emptyFields); 
+
+        if (
+        !nameIsBlank(newUser)&&
+        !passwordIsBlank(newUser)&&
+        !emailIsBlank(newUser)&&
+        !contactNumberIsBlank(newUser)&&
+        !checkUsername(newUser)&&
+        passwordCheck&&
+        emptyFields===0
+        ){
+            alert("user pode ser criado");
+        } else {
+            alert("user nao pode ser criado")
+            console.log()
+        }
+        
         //postUser(newUser);
         //window.location.href='index.html';
     
 })
 })
+async function contactNumberIsBlank(newUser){
+    try{
+        await fetch ('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/contactNumberIsBlank',{
+        method: 'POST',
+        headers:{
+            'Accept': '*/*',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newUser),
+    }).then(function(response){
+        console.log(response.status)
+        if (response.status == 404){
+            alert ("contact field is empty");
+        }
+    })
+    } 
+    catch(error){
+        console.log('error:', error);
+    }
+}
 async function passwordIsBlank(newUser){
     try{
         await fetch ('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/passwordIsBlank',{
