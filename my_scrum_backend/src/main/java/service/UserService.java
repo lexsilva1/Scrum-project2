@@ -33,7 +33,7 @@ public class UserService {
         userBean.addUser(a);
         return Response.status(200).entity("A new user is created").build();
     }
-    @GET
+
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUser(@PathParam("id")String id) {
@@ -59,5 +59,15 @@ public class UserService {
         if (!updated)
             return Response.status(200).entity("User with this ID is not found").build();
         return Response.status(200).entity("updated").build();
+    }
+    @POST
+    @Path("/checksUsername")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response checkUsername(User a){
+        if (userBean.checkUsername(a)){
+            return Response.status(200).entity("This username already exists").build();
+        } else {
+            return Response.status(404).entity("Username does not exist").build();
+        }
     }
 }

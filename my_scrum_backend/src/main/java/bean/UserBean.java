@@ -73,4 +73,14 @@ public class UserBean {
             throw new RuntimeException(e);
         }
     }
+    public boolean checkUsername(User user){
+        for (int i = 0; i< users.size(); i++){
+            if (user.getUsername().equals(users.get(i).getUsername())){
+                System.out.println("username already exists");
+                return true;
+            }
+        }
+        System.out.println("username does not exist");
+        return false;
+    }
 }
