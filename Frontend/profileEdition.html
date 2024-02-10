@@ -11,31 +11,42 @@
     <!--header é o mesmo que o da página principal-->
     </header>
     <section id ="editSection">
-        <div id = "profilePicDiv">
+        <div id = "profilePicEdit">
             <img id="profileImage" src ="/Users/utilizador/Desktop/Acertar o Rumo/scrum_project2/Scrum-project2/Frontend/multimedia/avatar-1577909_1280.png" alt="Avatar">
-            <input id="photoUpload" type="file" name ="profilePhoto" placeholder="photo" required ="" capture>
         </div>
+        <div>
+            <input id="photoUpload" type="file" name ="profilePhoto" placeholder="photo" required ="" capture>
+        </div>    
+        
         <!-- aqui À frente ficar os outros detalhes do header-->
         <div id ="editUserValues">
-        <label>First name</label>
-        <input type="text" placeholder ="First name">
-        <label>Last name</label>
-        <input type="text" placeholder ="Last name">
-        <label>Username</label>
-        <input type="text" placeholder ="Username">
-        <label>Old password</label>
-        <input type="text" placeholder ="Old password">
-        <!--botões para ver password-->
-        <label>New password</label>
-        <input type="text" placeholder ="New password">
-        <label>Rewrite new password</label>
-        <input type="text" placeholder ="Rewrite new Password">
+            <label>First name</label>
+            <input type="text" placeholder ="First name">
+            <label>Last name</label>
+            <input type="text" placeholder ="Last name">
+            <label>Username</label>
+            <input type="text" placeholder ="Username">
+            <label>Old password</label>
+            <input type="password" placeholder ="Old password">
+            <!--botões para ver password-->
+            <label>New password</label>
+            <input type="password" placeholder ="New password">
+            <label>Rewrite new password</label>
+            <input type="password" placeholder ="Rewrite new Password">
+        </div>
         <div id ="btnEditprofile">
             <button type="button">submit</button>
             <!--abrir modal para concordar se altera ou nao as alterações-->
-            <button type = "button">cancel</button>
-        </div>
-        </div>
+            <button type = "button" id ="buttonCancelEdition">cancel</button>
+        </div>   
     </section>
+    <footer>
+        <div class="footer-content">
+            <div class="label-left">&copy; José Alexandre Silva</div>
+            <div class="label-right">Programação Avançada em Java</div>
+            <div class="label-left">&copy; Pedro Monteiro</div>
+            <div class="label-right">Projeto 2</div>
+    </footer>
 </body>
+<script src ="profileEdition.js"></script>
 </html>
