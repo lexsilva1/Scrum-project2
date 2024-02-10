@@ -977,6 +977,8 @@ footer {
   cursor: pointer;
   height: 3.125rem;
   width: 5rem;
+  right:55px;
+  
 }
 #passwordDiv{
   display: flex;
@@ -996,9 +998,15 @@ footer {
   margin:.3125rem;
   display: flex;
   flex-direction: column;
+  margin-right: 30px;
+  border:150px;
 }
 
-
+.fa-regular{
+  position:relative;
+  top:-18px;
+  left:92px;
+}
 
 
 
@@ -1068,7 +1076,7 @@ footer {
   position:relative;
   left:50px;
 }
-.fa-regular{
+#btnToEdit{
   position:relative;
   top:-35px;
   left:120px;
