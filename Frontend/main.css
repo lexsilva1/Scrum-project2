@@ -993,7 +993,7 @@ footer {
   
 }
 .password{
-  margin:5px;
+  margin:.3125rem;
   display: flex;
   flex-direction: column;
 }
@@ -1019,34 +1019,34 @@ footer {
   height: fit-content;
   width: fit-content;
   position:relative;
-  height: 400px;
-  top:20px;
-  left:-800px;
+  height: 25rem;
+  top:1.25rem;
+  left:-50rem;
   font-size: large;
 }
 
 
 #editUserValues input{
-  margin:5px;
+  margin:.3125rem;
   justify-content: space-between;
-  width: 200px;
-  height: 20px;
+  width: 12.5rem;
+  height: 1.25rem;
 }
 #photoUpload{
   position:relative;
-  left:-102px;
-  top:250px;
+  left:-6.375rem;
+  top:15.625rem;
 }
 #btnEditprofile{
   position:relative;
-  top:300px;
-  left:-870px;
+  top:18.75rem;
+  left:-54.372rem;
 }
 #btnEditprofile button{
   font-size: larger;
   position: relative;
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: bold;
   background-color: var(--doing);
   color: var(--green3);
@@ -1058,7 +1058,7 @@ footer {
 }
 #profilePicEdit{
   position: relative;
-  left:250px;
-  top:40px;
+  left:15.625rem;
+  top:2.5rem;
 
 }
