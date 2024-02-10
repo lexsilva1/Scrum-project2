@@ -6,7 +6,7 @@ document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
     e.preventDefault();
     if (document.getElementById('userPassword').value.trim() != document.getElementById('userRewrittenPassword').value.trim()){
         alert('Passwords do not match');
-    }else{
+    } else {
     let newUser = {
         id : 'user'+Math.floor(Math.random()*1000),
         username : document.getElementById('userUsername').value.trim(),
@@ -62,6 +62,7 @@ document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
     
 }
 })
+});
 async function contactNumberIsBlank(newUser){
     try{
         await fetch ('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/contactNumberIsBlank',{

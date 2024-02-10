@@ -921,6 +921,12 @@ footer {
   background-color: color-mix(in srgb, var(--light-grey), transparent 10%);
   height: 24.50rem;
 }
+#registryValues input{
+  position: relative;
+  top:75px;
+  left:249px;
+
+}
 
 #profilePicDiv{
   left:250px;
@@ -930,12 +936,10 @@ footer {
   overflow: hidden;
   top:70px;
   
+  
 }
 #profilePicDiv input{
   position:relative;
-  bottom: 30px;
-  
-  
 }
 
 .inputs{
