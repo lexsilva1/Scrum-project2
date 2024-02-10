@@ -306,3 +306,9 @@ function updateDate() { // Mostra a data atual
 }
 
 updateDate();
+
+document.addEventListener('click', (e)=>{
+  if (e.target.matches('.fa-regular')){
+    window.location.href = 'profileEdition.html';
+  }
+})
