@@ -194,4 +194,11 @@ catch (error) {
 document.getElementById('cancelRegistryButton').addEventListener('click',()=>{
     window.location.href='index.html'
 })
+document.addEventListener('click', (e)=>{
+    if (e.target.matches('.fa-regular')){
+        const seePassword = document.querySelectorAll('input[type="password"]');
+        seePassword.type = 'text';
+        alert("clicking eye")
+    }
+  })
 
