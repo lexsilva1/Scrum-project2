@@ -8,13 +8,15 @@ document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
         alert('Passwords do not match');
     } else {
     let newUser = {
+        image : document.getElementById('profileImage').src,
         id : 'user'+Math.floor(Math.random()*1000),
         username : document.getElementById('userUsername').value.trim(),
         name : document.getElementById('userFirstName').value.trim()+' '+document.getElementById('userLastName').value.trim(),
         email : document.getElementById('userEmail').value.trim(),
         password : document.getElementById('userPassword').value.trim(),
         }
-
+        postUser(newUser);
+        alert("new user created");
         console.log(JSON.stringify(newUser));
 
         //verificação frontend de credenciais
@@ -36,13 +38,13 @@ document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
 
         
         //password checks with rewritten password 
-        const passwordCheck = newUser.password === document.getElementById('userRewrittenPassword').value;
+        /*const passwordCheck = newUser.password === document.getElementById('userRewrittenPassword').value;
         if (passwordCheck){
             console.log("password checks out");
         }
         console.log(emptyFields); 
 
-        if (
+        /*if (
         !nameIsBlank(newUser)&&
         !passwordIsBlank(newUser)&&
         !emailIsBlank(newUser)&&
@@ -55,9 +57,9 @@ document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
         } else {
             alert("user nao pode ser criado")
             console.log()
-        }
+        }*/
         
-        //postUser(newUser);
+        
         //window.location.href='index.html';
     
 }
