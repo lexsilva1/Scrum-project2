@@ -699,6 +699,17 @@ match ao arredondamento do painel (home.html) */
   font-weight: bold;
   cursor: pointer;
 }
+#taskDate{
+  display:flex;
+  margin-top: 10px;
+}
+#taskDate input{
+  height: fit-content;
+  width: fit-content;
+  align-self: center;
+  margin-top:1.5px;
+  
+}
 #save-button,
 #cancel-button {
   width: 150px;
