@@ -5,6 +5,7 @@ window.onload = function () {
     }
     loadTasks();
   };
+//document.getElementById('profileImageHome').src = ''
 const tasks = document.querySelectorAll('.task')
 const panels = document.querySelectorAll('.panel')
 
@@ -304,3 +305,11 @@ function updateDate() { // Mostra a data atual
 }
 
 updateDate();
+
+
+document.addEventListener('click', (e)=>{
+  if (e.target.matches('.fa-regular')){
+    window.location.href = 'profileEdition.html';
+  }
+})
+

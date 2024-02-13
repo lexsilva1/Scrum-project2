@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Scrum</title>
+    <script src="https://kit.fontawesome.com/977c7777a4.js" crossorigin="anonymous"></script>
     <link  type="text/css" rel="stylesheet" href="main.css">
     <link rel="icon" href="multimedia/favicon.png" type="image/x-icon">
 </head>
@@ -24,6 +25,10 @@
             <label>Hi </label>
             <label id="login"></label>
         </div>
+        <div id="profileImageHome">
+            <img id="profileImageHome" src ="" alt="Avatar">
+            <i id ="btnToEdit" class="fa-regular fa-id-card"></i>
+        </div>
         <button class="logout-button" onclick="location.href='index.html'">
             <img src="multimedia/logout.png" alt="Logout Icon">
             Logout
@@ -43,6 +48,12 @@
                     <button class="priority-button-home medium" id="medium-button-home">Medium</button>
                     <button class="priority-button-home high" id="high-button-home">High</button>
                 </div>
+            <div id="taskDate">
+                <label>Start-date</label>
+                <input type ="date">
+                <label>End-date</label>
+                <input type ="date">
+            </div>
             <button id="addTask">Add task</button>
             <p id="warningMessage2"></p>
         </div>
