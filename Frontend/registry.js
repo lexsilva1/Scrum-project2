@@ -13,9 +13,11 @@ document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
         name : document.getElementById('userFirstName').value.trim()+' '+document.getElementById('userLastName').value.trim(),
         email : document.getElementById('userEmail').value.trim(),
         password : document.getElementById('userPassword').value.trim(),
+        photo : document.getElementById("userPhotoUrl").value.trim()
         }
 
         console.log(JSON.stringify(newUser));
+        postUser(newUser);
 
         //verificação frontend de credenciais
         const emptyFields = [];
@@ -42,7 +44,7 @@ document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
         }
         console.log(emptyFields); 
 
-        if (
+        /*if (
         !nameIsBlank(newUser)&&
         !passwordIsBlank(newUser)&&
         !emailIsBlank(newUser)&&
@@ -55,9 +57,9 @@ document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
         } else {
             alert("user nao pode ser criado")
             console.log()
-        }
+        }*/
         
-        //postUser(newUser);
+        
         //window.location.href='index.html';
     
 }

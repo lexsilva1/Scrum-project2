@@ -950,7 +950,7 @@ footer {
   display: flex;
   flex-direction: column;
   height: fit-content;
-  width: fit-content;
+  width: 250px;
   position:relative;
   top:10px;
   left: 490px;
@@ -972,6 +972,9 @@ footer {
   align-self: self-end;
   height: fit-content;
   width: fit-content;
+  left:350px;
+  display:flex;
+  flex-direction: column;
   
 }
 
@@ -994,8 +997,7 @@ footer {
 #passwordDiv{
   display: flex;
   position: relative;
-  top:-60px;
-  left:240px;
+  left:180px;
   align-self: self-end; 
   align-items: center;
   align-content: center;

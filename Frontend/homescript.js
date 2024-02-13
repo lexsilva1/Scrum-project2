@@ -5,6 +5,7 @@ window.onload = function () {
     }
     loadTasks();
   };
+//document.getElementById('profileImageHome').src = ''
 const tasks = document.querySelectorAll('.task')
 const panels = document.querySelectorAll('.panel')
 
