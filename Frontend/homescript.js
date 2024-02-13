@@ -115,9 +115,7 @@ function createTask(name, description, priority) { // Cria uma tarefa com o nome
   const task = {
   title :name,
   description: description,
-  identificacao: 'task-' + Date.now(),
-  status: 'todo',
-  priority: priority
+  priority: priority,
   }
   return task;
 }

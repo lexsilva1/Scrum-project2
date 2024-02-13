@@ -1,6 +1,7 @@
 package service;
 import java.util.List;
 import bean.UserBean;
+import dto.Task;
 import dto.User;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -31,8 +32,12 @@ public class UserService {
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(User a) {
+        if(a.getUsername() == null || a.getPassword() == null || a.getContactNumber() == null || a.getEmail() == null || a.getName() == null){
+            return Response.status(400).entity("All elements are required are required").build();
+        }
         boolean user = userBean.userExists(a.getUsername());
         if (user) {
+
             return Response.status(409).entity("User with this username is already exists").build();
         }
         userBean.addUser(a);
@@ -40,21 +45,80 @@ public class UserService {
     }
 
     @GET
-    @Path("/{username}")
+    @Path("/tasks")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUserByUsername(@PathParam("username")String username) {
+       public Response isUserValid(@HeaderParam("username") String username, @HeaderParam("password") String password) {
+              boolean user = userBean.userExists(username);
+                if (!user) {
+                    return Response.status(404).entity("User with this username is not found").build();
+                }else {
+                    User user1 = userBean.getUser(username);
+                    if (!user1.getPassword().equals(password)) {
+                        return Response.status(405).entity("Forbidden").build();
+                    }
+                    return Response.status(200).entity(user1.getTasks()).build();
+                }
+            }
+    @POST
+    @Path("/addtask")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addTaskToUser(@HeaderParam("username") String username,@HeaderParam("password") String password, Task task) {
         boolean user = userBean.userExists(username);
-        if (!user)
+        boolean authorized = userBean.isUserAuthorized(username, password);
+        if (!user) {
             return Response.status(404).entity("User with this username is not found").build();
-        return Response.status(200).build();
+        }else if (!authorized) {
+            return Response.status(405).entity("Forbidden").build();
+        }else {
+            task.generateId();task.setinitialStatus();
+            userBean.addTaskToUser(username, task);
+            User user1 = userBean.getUser(username);
+            return Response.status(200).entity(user1).build();
+        }
     }
+    @DELETE
+    @Path("/removetask")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response removeTaskFromUser(@HeaderParam("username") String username, @HeaderParam("password") String password, @QueryParam("id")String id) {
+        boolean user = userBean.userExists(username);
+        boolean authorized = userBean.isUserAuthorized(username, password);
+        if (!user) {
+            return Response.status(404).entity("User with this username is not found").build();
+        }else if (!authorized) {
+            return Response.status(405).entity("Forbidden").build();
+        }
+        userBean.removeTaskFromUser(username, id);
+        User user1 = userBean.getUser(username);
+        return Response.status(200).entity(user1).build();
+    }
+
+    @PUT
+    @Path("/{username}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateUser(@PathParam("username")String username, @HeaderParam("password") String password) {
+        boolean user = userBean.userExists(username);
+        boolean authorized = userBean.isUserAuthorized(username, password);
+        if (!user) {
+            return Response.status(404).entity("User with this username is not found").build();
+        }else if (!authorized) {
+            return Response.status(405).entity("Forbidden").build();
+        }
+        User user1 = userBean.getUser(username);
+        return Response.status(200).entity(user1).build();
+    }
+
+
+
+
     @DELETE
     @Path("/delete")
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeUser(@QueryParam("id")String id) {
         boolean deleted = userBean.removeUser(id);
         if (!deleted)
-            return Response.status(200).entity("User with this idea is not found").build();
+            return Response.status(404).entity("User with this idea is not found").build();
         return Response.status(200).entity("deleted").build();
     }
     @PUT
@@ -63,14 +127,14 @@ public class UserService {
     public Response updateUser(User a, @HeaderParam("id") String id) {
         boolean updated = userBean.updateUser(id, a);
         if (!updated)
-            return Response.status(200).entity("User with this ID is not found").build();
+            return Response.status(404).entity("User with this ID is not found").build();
         return Response.status(200).entity("updated").build();
     }
 
     @GET
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response login(@QueryParam("username") String username, @QueryParam("password") String password){
+    public Response login(@HeaderParam("username") String username, @HeaderParam("password") String password){
         User user = userBean.login(username,password);
         if (user==null) {
             return Response.status(404).entity("User with this username and password is not found").build();

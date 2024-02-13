@@ -30,6 +30,7 @@ public class TaskService {
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addTask(Task a) {
+        a.generateId();
         taskBean.addTask(a);
         return Response.status(200).entity("A new task is created").build();
     }
