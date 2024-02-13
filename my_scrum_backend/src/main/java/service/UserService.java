@@ -34,9 +34,10 @@ public class UserService {
         boolean user = userBean.userExists(a.getUsername());
         if (user) {
             return Response.status(409).entity("User with this username is already exists").build();
+        } else {
+            userBean.addUser(a);
+            return Response.status(200).entity("A new user is created").build();
         }
-        userBean.addUser(a);
-        return Response.status(200).entity("A new user is created").build();
     }
 
     @GET
@@ -79,4 +80,17 @@ public class UserService {
 
         }
     }
+    @GET
+    @Path("/userPhoto")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response userPhoto(User a){
+        if (a.getUserPhoto()==null) {
+            return Response.status(404).entity("User with this username and password is not found").build();
+        }else {
+            return Response.status(200).entity(a.getUserPhoto()).build();
+
+        }
+    }
+
+
 }

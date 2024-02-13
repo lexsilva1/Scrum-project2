@@ -122,4 +122,7 @@ public class UserBean {
         }
         return false;
     }
+    public String userPhoto(User a){
+        return a.getUserPhoto();
+    }
 }

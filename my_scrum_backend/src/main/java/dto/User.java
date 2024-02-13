@@ -1,6 +1,13 @@
 package dto;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
 @XmlRootElement
 public class User {
     String id;
@@ -12,9 +19,11 @@ public class User {
 
     String password;
     String contactNumber;
+    String userPhoto;
     public User() {
     }
-    public User(String id,String username, String name, String email, String password, String contactNumber) {
+    public User(String userPhoto, String id,String username, String name, String email, String password, String contactNumber) throws IOException {
+        this.userPhoto = userPhoto;
         this.id = id;
         this.username = username;
         this.name = name;
@@ -60,4 +69,7 @@ public class User {
     @XmlElement
     public String getContactNumber(){return contactNumber;}
     public void setContactNumber(String contactNumber){this.contactNumber = contactNumber;}
+    public String getUserPhoto(){return userPhoto;}
+    public void setUserPhoto (String photoUrl){this.userPhoto = photoUrl;}
+
 }
