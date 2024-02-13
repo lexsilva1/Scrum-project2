@@ -16,31 +16,37 @@ document.getElementById('registerButton').addEventListener('click',()=>{
 async function login(loginValue, passwordValue) {
     // Send GET request with username and password as query parameters
     try {
-        const response = await fetch(`http://localhost:8080/lexsilva-pedromont-proj2/rest/user/login?username=${loginValue}&password=${passwordValue}`);
-        
-        if (response.status === 200) {
-            // User is logged in successfully
-            alert('User is logged in successfully :)');
-            const userData = await response.json();
-            
-            // Store user data in sessionStorage
-            sessionStorage.setItem('userId', userData.id);
-            sessionStorage.setItem('username', userData.username);
-            sessionStorage.setItem('email', userData.email);
-            // Add other user properties as needed
-            
-            // Redirect to index.html after successful login
-            window.location.href = 'home.html';
-        } else if (response.status === 404) {
-            // User not found
-            alert('User not found');
-        } else {
-            // Something went wrong
-            alert('Something went wrong :(');
-        }
+        await fetch(`http://localhost:8080/my_scrum_backend_war_exploded/rest/user/login?username=${loginValue}&password=${passwordValue}`, {
+            method: 'GET',
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'application/json',
+                username: loginValue,
+                password: passwordValue,
+            }
+        }).then(async function(response) {
+            if (response.status === 200) {
+                // User is logged in successfully
+                alert('User is logged in successfully :)');
+                const userData = await response.json();
+                
+                // Store user data in sessionStorage
+                sessionStorage.setItem('password', userData.password);
+                sessionStorage.setItem('username', userData.username);
+                // Add other user properties as needed
+                
+                // Redirect to index.html after successful login
+                window.location.href = 'home.html';
+            } else if (response.status === 404) {
+                // User not found
+                alert('User not found');
+            } else {
+                // Something went wrong
+                alert('Something went wrong :(');
+            }
+        });
     } catch (error) {
         console.error('Error:', error);
     }
-}
 
-//adicionar aqui a funcionalidade para ir para a pagina de registo
+}

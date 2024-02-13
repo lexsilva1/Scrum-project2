@@ -13,9 +13,11 @@ document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
         name : document.getElementById('userFirstName').value.trim()+' '+document.getElementById('userLastName').value.trim(),
         email : document.getElementById('userEmail').value.trim(),
         password : document.getElementById('userPassword').value.trim(),
+        photo : document.getElementById("userPhotoUrl").value.trim()
         }
 
         console.log(JSON.stringify(newUser));
+        postUser(newUser);
 
         //verificação frontend de credenciais
         const emptyFields = [];
@@ -42,7 +44,7 @@ document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
         }
         console.log(emptyFields); 
 
-        if (
+        /*if (
         !nameIsBlank(newUser)&&
         !passwordIsBlank(newUser)&&
         !emailIsBlank(newUser)&&
@@ -55,9 +57,9 @@ document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
         } else {
             alert("user nao pode ser criado")
             console.log()
-        }
+        }*/
         
-        //postUser(newUser);
+        
         //window.location.href='index.html';
     
 }
@@ -65,7 +67,7 @@ document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
 });
 async function contactNumberIsBlank(newUser){
     try{
-        await fetch ('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/contactNumberIsBlank',{
+        await fetch ('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/contactNumberIsBlank',{
         method: 'POST',
         headers:{
             'Accept': '*/*',
@@ -85,7 +87,7 @@ async function contactNumberIsBlank(newUser){
 }
 async function passwordIsBlank(newUser){
     try{
-        await fetch ('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/passwordIsBlank',{
+        await fetch ('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/passwordIsBlank',{
         method: 'POST',
         headers:{
             'Accept': '*/*',
@@ -105,7 +107,7 @@ async function passwordIsBlank(newUser){
 }
 async function emailIsBlank(newUser){
     try{
-        await fetch ('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/emailIsBlank',{
+        await fetch ('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/emailIsBlank',{
         method: 'POST',
         headers:{
             'Accept': '*/*',
@@ -125,7 +127,7 @@ async function emailIsBlank(newUser){
 }
 async function nameIsBlank(newUser){
     try{
-        await fetch ('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/nameIsBlank',{
+        await fetch ('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/nameIsBlank',{
         method: 'POST',
         headers:{
             'Accept': '*/*',
@@ -145,7 +147,7 @@ async function nameIsBlank(newUser){
 }
 async function checkUsername(newUser){
     try{
-        await fetch ('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/checksUsername',{
+        await fetch ('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/checksUsername',{
             method: 'POST',
             headers:{
                 'Accept': '*/*',
@@ -167,11 +169,11 @@ async function checkUsername(newUser){
     }
 }
 
-
+//função que cria novo utilizador
 async function postUser(newUser){
     // Send POST request with newUser data
      try {
-         await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/add', {
+         await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/add', {
             method: 'POST',
             headers: {
                 'Accept': '*/*',
@@ -194,6 +196,7 @@ catch (error) {
 document.getElementById('cancelRegistryButton').addEventListener('click',()=>{
     window.location.href='index.html'
 })
+//função para transformar a password em texto
 document.addEventListener('click', (e)=>{
     if (e.target.matches('.fa-regular')){
         const seePassword = document.querySelectorAll('input[type="password"]');

@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.util.ArrayList;
+
+import dto.Task;
 import jakarta.enterprise.context.ApplicationScoped;
 import dto.User;
 import jakarta.json.bind.Jsonb;
@@ -33,7 +35,7 @@ public class UserBean {
     }
     public User getUser(String i) {
         for (User a : users) {
-            if (a.getId().equals(i))
+            if (a.getUsername().equals(i))
                 return a;
         }
         return null;
@@ -50,16 +52,17 @@ public class UserBean {
         }
         return false;
     }
-    public boolean updateUser(String id, User user) {
+    public boolean updateUser(String username, User user) {
         for (User a : users) {
-            if (a.getId().equals(id)) {
-                a.setUsername(user.getUsername());
+            if (a.getUsername().equals(username)) {
                 a.setName(user.getName());
                 a.setEmail(user.getEmail());
                 a.setPassword(user.getPassword());
+                a.setContactNumber(user.getContactNumber());
                 writeIntoJsonFile();
                 return true;
             }
+
         }
         return false;
     }
@@ -71,6 +74,14 @@ public class UserBean {
             jsonb.toJson(users, fileOutputStream);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+    public void addTaskToUser(String username, Task task) {
+        for (User a : users) {
+            if (a.getUsername().equals(username)) {
+                a.addTask(task);
+                writeIntoJsonFile();
+            }
         }
     }
 
@@ -122,7 +133,21 @@ public class UserBean {
         }
         return false;
     }
-    public String userPhoto(User a){
-        return a.getUserPhoto();
+    public boolean isUserAuthorized(String username, String password){
+        for (User a : users) {
+            if (a.getUsername().equals(username) && a.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+
+    }public void removeTaskFromUser(String username, String id) {
+        for (User a : users) {
+            if (a.getUsername().equals(username)) {
+                a.removeTask(id);
+                writeIntoJsonFile();
+            }
+        }
     }
+
 }
