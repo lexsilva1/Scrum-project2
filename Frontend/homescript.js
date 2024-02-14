@@ -1,4 +1,4 @@
-window.onload = function () {
+window.onload = async function () {
     var username = sessionStorage.getItem("username");
     if (username) {
       document.getElementById("login").textContent = username;
@@ -6,7 +6,7 @@ window.onload = function () {
     loadTasks();
     updateDate();
     showTime();
-    document.getElementById('profileImageHome').src = getUserPhoto();
+    document.getElementById('profileImageHome').src = await getUserPhoto();
     console.log(document.getElementById('profileImageHome'))
     console.log(getUserPhoto());
   };
@@ -393,6 +393,7 @@ async function getUserPhoto(){
     const obj = await response.json();
     console.log(obj);
     console.log(obj.userPhoto);
+    sessionStorage.setItem('photo', obj.userPhoto);
     return obj.userPhoto;
     
   } catch (error) {
