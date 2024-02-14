@@ -4,18 +4,9 @@ import bean.UserBean;
 import dto.Task;
 import dto.User;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.HeaderParam;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.StreamingOutput;
 
 @Path("/user")
@@ -93,6 +84,21 @@ public class UserService {
         userBean.removeTaskFromUser(username, id);
         return Response.status(200).entity("task Deleted").build();
     }
+    @POST
+    @Path("/updatetask")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateTask(@HeaderParam("username") String username, @HeaderParam("password") String password, Task a) {
+        boolean authorized = userBean.isUserAuthorized(username, password);
+        System.out.println(a);
+         if (!authorized) {
+            return Response.status(405).entity("Forbidden").build();
+        }
+        boolean updated = userBean.updateTask(username, a);
+        if (!updated)
+            return Response.status(400).entity("Failed. Task not updated").build();
+        return Response.status(200).entity("updated").build();
+    }
 
     @PUT
     @Path("/{username}")
@@ -110,17 +116,23 @@ public class UserService {
         return Response.status(200).entity(user1).build();
     }
     @GET
-    @Path("/{username}")
+    @Path("/photo")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser(@PathParam("username") String username) {
-        boolean exists = userBean.userExists(username);
-        User user = userBean.getUser(username);
-        if (!exists) {
+    public Response getPhoto(@HeaderParam("username") String username, @HeaderParam("password") String password) {
+        boolean user = userBean.userExists(username);
+        boolean authorized = userBean.isUserAuthorized(username, password);
+        if (!user) {
             return Response.status(404).entity("User with this username is not found").build();
-        } else {
-            return Response.status(200).entity(user).build();
+        }else if (!authorized) {
+            return Response.status(405).entity("Forbidden").build();
         }
+        User user1 = userBean.getUser(username);
+        if(user1.getUserPhoto() == null){
+            return Response.status(400).entity("User with no photo").build();
+        }
+        return Response.status(200).entity(user1.getUserPhoto()).build();
     }
+
 
     @DELETE
     @Path("/delete")
@@ -142,6 +154,8 @@ public class UserService {
             return Response.status(404).entity("User with this username is not found").build();
         }else if (!authorized) {
             return Response.status(405).entity("Forbidden").build();
+        }else if (a.getUsername() == null || a.getPassword() == null || a.getContactNumber() == null || a.getEmail() == null || a.getName() == null || a.getUserPhoto() == null){
+            return Response.status(400).entity("All elements are required are required").build();
         }
         boolean updated = userBean.updateUser(username, a);
         if (!updated)

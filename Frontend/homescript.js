@@ -6,10 +6,13 @@ window.onload = function () {
     loadTasks();
     updateDate();
     showTime();
-    document.getElementById('profileImageHome').src = getUserPhoto();
-    console.log(document.getElementById('profileImageHome').src)
-    console.log(getUserPhoto());
-  };
+    const userPhoto = getUserPhoto();
+    if(userPhoto !== null){
+    document.getElementById('profileImageHome').src = userPhoto;
+    } else {
+      document.getElementById('profileImageHome').src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+  }
+};
 
 
 
@@ -37,11 +40,13 @@ panels.forEach(panel => { // Adiciona os listeners de drag and drop a um painel
     const task = document.querySelector('.dragging')
     const panelID = document.getElementById(panel.id) // Guarda o ID do painel onde a tarefa vai ser colocada
     if (afterElement == null) {
+      console.log('null')
       panel.appendChild(task)
       task.status = panel.id;
       for (var i = 0; i < tasks.length; i++) { // Percorre o array de tarefas e altera o status da tarefa para o painel onde foi colocada
         if (tasks[i].id == task.id) {
           tasks[i].status = panelID; // Atualiza o status da tarefa
+          updateTask(tasks[i]); // Faz fetch para atualizar a tarefa na base de dados
         }
       }
       
@@ -51,9 +56,9 @@ panels.forEach(panel => { // Adiciona os listeners de drag and drop a um painel
       for (var i = 0; i < tasks.length; i++) {
         if (tasks[i].id == task.id) {
           tasks[i].status = panelID;
+          updateTask(tasks[i]);
         }
       }
-  
     }
   })
 })
@@ -141,7 +146,7 @@ function createTask(name, description, priority,startdate,enddate) { // Cria uma
   return task;
 }
 async function postTask(task) {
-  await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/addtask', {
+  await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/addtask', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -225,29 +230,9 @@ function createTaskElement(task) {
     return taskElement;
 }
 
-  /*tasks.forEach(task => {
-    const taskData = {
-      identificacao: task.id,
-      title: task.title,
-      description: task.description,
-      status: task.status,
-      priority: task.priority
-    };
-
-    // Determina o status de cada task e coloca-a no array correspondente
-    taskArray[task.status].push(taskData);
-  });
-
-  // Combina todos os arrays de tasks num √∫nico array
-  const tasksArray = [taskArrays.todo, taskArrays.doing, taskArrays.done];
-
-  // Guarda o array global de tasks na local storage
-  localStorage.setItem('tasks', JSON.stringify(tasksArray));
-}*/
-// Carrega as tarefas guardadas na local storage
 async function loadTasks() {
 
-     await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/tasks', {
+     await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/tasks', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -283,7 +268,7 @@ async function loadTasks() {
   
   async function deleteTask(id) {
     try {
-      const response = await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/removetask', {
+      const response = await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/removetask', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -309,6 +294,44 @@ async function loadTasks() {
       alert('Error deleting task. Please try again.');
     }
   }
+  async function updateTask(taskElement) {
+    let task = {
+      id: taskElement.id,
+      title: taskElement.title,
+      description: taskElement.description,
+      priority: taskElement.priority,
+      startdate: taskElement.startdate,
+      enddate: taskElement.enddate,
+      status: taskElement.status
+    };
+    try {
+      const response = await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/updatetask', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'username': sessionStorage.getItem('username'),
+          'password': sessionStorage.getItem('password')
+        },
+        body: JSON.stringify(task)
+      });
+  
+      if (response.ok) {
+        console.log('Task updated');
+      } else if (response.status === 404) {
+        console.log('Task not found');
+      } else if (response.status === 401) {
+        console.log('Unauthorized');
+      } else {
+        // Handle other response status codes
+        console.error('Unexpected response:', response.status);
+      }
+    } catch (error) {
+      console.error('Error updating task:', error);
+      // Handle fetch errors
+      alert('Error updating task. Please try again.');
+    }
+  }
+
   
 
  // Elemento html onde vai ser mostrada a hora
@@ -383,18 +406,28 @@ window.onclose = function () { // Guarda as tarefas na local storage quando a p√
 
 
 //fazer fetch ao ficheiro do backend
-async function getUserPhoto(){
-  fetch (`http://localhost:8080/lexsilva-pedromont-proj2/rest/user/${sessionStorage.getItem('username')}`).then(function(response){
-    return response.json();
-  }).then(function(obj){
-    return obj.userPhoto;
-    console.log(obj.userPhoto);
-  }).catch(function(error){
-    console.error('something went wrong');
-    console.error(error);
-  })
-}
+async function getUserPhoto() {
+  const response = await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/photo', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'username': sessionStorage.getItem('username'),
+      'password': sessionStorage.getItem('password')
+    }
+  });
 
-//fazer parse ao ficheiro json para um objeto
-//aceder ao atributo do objeto 
-//assign esse atributo ao elemento do documento
+  if (response.ok) {
+    const photo = await response.json();
+    console.log(photo);
+    return photo;
+  } else if (response.status === 404) {
+    alert('User not found');
+  } else if (response.status === 401) {
+    alert('Unauthorized');
+  }else if (response.status === 400) {
+      return null;
+  } else {
+    // Handle other response status codes
+    console.error('Unexpected response:', response.status);
+  }
+}
