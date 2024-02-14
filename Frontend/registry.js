@@ -13,10 +13,12 @@ document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
         name : document.getElementById('userFirstName').value.trim()+' '+document.getElementById('userLastName').value.trim(),
         email : document.getElementById('userEmail').value.trim(),
         password : document.getElementById('userPassword').value.trim(),
-        photo : document.getElementById("userPhotoUrl").value.trim()
+        contactNumber : document.getElementById('userNumber').value.trim(),
+        userPhoto : document.getElementById("userPhotoUrl").value.trim()
         }
-
+        
         console.log(JSON.stringify(newUser));
+        console.log(newUser);
         postUser(newUser);
 
         //verificação frontend de credenciais
@@ -173,7 +175,7 @@ async function checkUsername(newUser){
 async function postUser(newUser){
     // Send POST request with newUser data
      try {
-         await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/add', {
+         await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/add',{
             method: 'POST',
             headers: {
                 'Accept': '*/*',
@@ -185,6 +187,7 @@ async function postUser(newUser){
             alert('user is added successfully :)');
             } else {
             alert('something went wrong :(');
+            console.log(response.status);
             }
             });
 }

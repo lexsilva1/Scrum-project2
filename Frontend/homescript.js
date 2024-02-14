@@ -6,6 +6,9 @@ window.onload = function () {
     loadTasks();
     updateDate();
     showTime();
+    document.getElementById('profileImageHome').src = getUserPhoto();
+    console.log(document.getElementById('profileImageHome').src)
+    console.log(getUserPhoto());
   };
 
 
@@ -14,7 +17,6 @@ window.onload = function () {
     window.location.href = 'index.html';
   }
 
-//document.getElementById('profileImageHome').src = ''
 const tasks = document.querySelectorAll('.task')
 const panels = document.querySelectorAll('.panel')
 
@@ -139,7 +141,7 @@ function createTask(name, description, priority,startdate,enddate) { // Cria uma
   return task;
 }
 async function postTask(task) {
-  await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/addtask', {
+  await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/addtask', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -245,7 +247,7 @@ function createTaskElement(task) {
 // Carrega as tarefas guardadas na local storage
 async function loadTasks() {
 
-     await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/tasks', {
+     await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/tasks', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -281,7 +283,7 @@ async function loadTasks() {
   
   async function deleteTask(id) {
     try {
-      const response = await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/removetask', {
+      const response = await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/removetask', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -380,3 +382,19 @@ window.onclose = function () { // Guarda as tarefas na local storage quando a p√
 }
 
 
+//fazer fetch ao ficheiro do backend
+async function getUserPhoto(){
+  fetch (`http://localhost:8080/lexsilva-pedromont-proj2/rest/user/${sessionStorage.getItem('username')}`).then(function(response){
+    return response.json();
+  }).then(function(obj){
+    return obj.userPhoto;
+    console.log(obj.userPhoto);
+  }).catch(function(error){
+    console.error('something went wrong');
+    console.error(error);
+  })
+}
+
+//fazer parse ao ficheiro json para um objeto
+//aceder ao atributo do objeto 
+//assign esse atributo ao elemento do documento
