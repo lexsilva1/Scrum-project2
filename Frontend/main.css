@@ -699,15 +699,24 @@ match ao arredondamento do painel (home.html) */
   font-weight: bold;
   cursor: pointer;
 }
-#taskDate{
-  display:flex;
-  margin-top: 10px;
-}
+
 #taskDate input{
   height: fit-content;
   width: fit-content;
   align-self: center;
   margin-top:1.5px;
+  
+.dateinput{
+  margin: 5px;
+  width: 150px;
+  height: 25px;
+  padding-left: 5px;
+  background-color: var(--white);
+  font-size: 12px;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  font-family: Arial, Helvetica, sans-serif;
+}  
   
 }
 #save-button,

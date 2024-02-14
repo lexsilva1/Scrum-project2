@@ -3,6 +3,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 @XmlRootElement
 public class User {
@@ -104,9 +105,11 @@ public class User {
         tasks.remove(task);
     }
     public void removeTask(String id) {
-        for (Task a : tasks) {
-            if (a.getId().equals(id)) {
-                tasks.remove(a);
+        Iterator<Task> iterator = tasks.iterator();
+        while (iterator.hasNext()) {
+            Task task = iterator.next();
+            if (task.getId().equals(id)) {
+                iterator.remove();
             }
         }
     }

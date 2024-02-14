@@ -4,7 +4,15 @@ window.onload = function () {
       document.getElementById("login").textContent = username;
     }
     loadTasks();
+    updateDate();
+    showTime();
   };
+
+
+
+  if(sessionStorage.getItem('username') === null || sessionStorage.getItem('username') === ''){
+    window.location.href = 'index.html';
+  }
 
 //document.getElementById('profileImageHome').src = ''
 const tasks = document.querySelectorAll('.task')
@@ -34,7 +42,7 @@ panels.forEach(panel => { // Adiciona os listeners de drag and drop a um painel
           tasks[i].status = panelID; // Atualiza o status da tarefa
         }
       }
-      saveTasks();
+      
     } else {
       panel.insertBefore(task, afterElement)
       task.status = panel.id;
@@ -43,7 +51,7 @@ panels.forEach(panel => { // Adiciona os listeners de drag and drop a um painel
           tasks[i].status = panelID;
         }
       }
-      saveTasks(); // Guarda as alterações na local storage
+  
     }
   })
 })
@@ -69,9 +77,9 @@ function removeSelectedPriorityButton() {
 
 
 // Event listeners para os botões priority
-lowButton.addEventListener("click", () => setPriorityButtonSelected(lowButton, "low"));
-mediumButton.addEventListener("click", () => setPriorityButtonSelected(mediumButton, "medium"));
-highButton.addEventListener("click", () => setPriorityButtonSelected(highButton, "high"));
+lowButton.addEventListener("click", () => setPriorityButtonSelected(lowButton, 100));
+mediumButton.addEventListener("click", () => setPriorityButtonSelected(mediumButton, 200));
+highButton.addEventListener("click", () => setPriorityButtonSelected(highButton, 300));
 
 function getDragAfterElement(panel, y) {
     const draggableElements = [...panel.querySelectorAll('.task:not(.dragging)')] // Dentro da lista de painéis, seleciona todos os elementos com a classe task que nao tenham a classe dragging  
@@ -90,13 +98,18 @@ document.getElementById('addTask').addEventListener('click', function() {
   var Description = taskDescription.value.trim();
   var Name = taskName.value.trim();
   var priority = taskPriority;
-  if (Name === '' || Description === '' || priority === null) {
+  var startdate = document.getElementById('startdate').value;
+  var enddate = document.getElementById('enddate').value;
+  if (Name === '' || Description === '' || priority === null || startdate === '' || enddate === '') {
     document.getElementById('warningMessage2').innerText = 'Fill in all fields and define a priority';
+  } else if (startdate > enddate) {
+    document.getElementById('warningMessage2').innerText = 'Start date must be before end date';
   } else {
     document.getElementById('warningMessage2').innerText = '';
   }
-  if (Name.trim() !== '' && Description.trim() !== '' && priority !== null){
-      const task = createTask(Name, Description, priority);
+  if (Name.trim() !== '' && Description.trim() !== '' && priority !== null && startdate !== '' && enddate !== '' && startdate < enddate){
+      const task = createTask(Name, Description, priority,startdate,enddate);
+      postTask(task);
       const taskElement =createTaskElement(task);
      document.getElementById('todo').appendChild(taskElement);
 
@@ -106,38 +119,65 @@ document.getElementById('addTask').addEventListener('click', function() {
       // Limpar os input fields depois de adicionar a task
       document.getElementById('taskName').value = '';
       document.getElementById('taskDescription').value = '';
+      document.getElementById('startdate').value = '';
+      document.getElementById('enddate').value = '';
       removeSelectedPriorityButton();
       taskPriority = null;
 
   }
-  saveTasks();
+ 
 });
 
-function createTask(name, description, priority) { // Cria uma tarefa com o nome, a descrição e a priority passados como argumentos 
+function createTask(name, description, priority,startdate,enddate) { // Cria uma tarefa com o nome, a descrição e a priority passados como argumentos 
   const task = {
   title :name,
   description: description,
   priority: priority,
+  startdate: startdate,
+  enddate: enddate,
   }
   return task;
+}
+async function postTask(task) {
+  await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/addtask', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'username': sessionStorage.getItem('username'),
+      'password': sessionStorage.getItem('password')
+    },
+    body: JSON.stringify(task)
+  }).then(function(response){
+    if (response.status === 200){
+      alert('Task added');
+    }else if (response.status === 404){
+      alert('User not found');
+    }
+  });
 }
 
 function createTaskElement(task) {
     const taskElement = document.createElement('div');
-    taskElement.id = task.identificacao;
+    taskElement.id = task.id;
     taskElement.priority = task.priority;
     taskElement.classList.add('task'); 
-    if (task.priority === 'low') {
+    if (task.priority === 100) {
         taskElement.classList.add('low');
-    } else if (task.priority === 'medium') {
+    } else if (task.priority === 200) {
         taskElement.classList.add('medium');
-    } else if (task.priority === 'high') {
+    } else if (task.priority === 300) {
         taskElement.classList.add('high');
     }
     taskElement.draggable = true;
     taskElement.description = task.description;
     taskElement.title = task.title;
-    taskElement.status = task.status;
+    if(task.status === 10){
+    taskElement.status = "todo";
+    }else if(task.status === 20){
+    taskElement.status = "doing";
+    }else if(task.status === 30){
+    taskElement.status = "done";
+    }
 
     const postIt = document.createElement('div');
     postIt.className = 'post-it';
@@ -183,16 +223,7 @@ function createTaskElement(task) {
     return taskElement;
 }
 
-// Guarda as tasks na local storage
-function saveTasks() {
-  const tasks = document.querySelectorAll('.task');
-  const taskArrays = {
-    todo: [],
-    doing: [],
-    done: []
-  };
-  
-  tasks.forEach(task => {
+  /*tasks.forEach(task => {
     const taskData = {
       identificacao: task.id,
       title: task.title,
@@ -202,7 +233,7 @@ function saveTasks() {
     };
 
     // Determina o status de cada task e coloca-a no array correspondente
-    taskArrays[task.status].push(taskData);
+    taskArray[task.status].push(taskData);
   });
 
   // Combina todos os arrays de tasks num único array
@@ -210,48 +241,74 @@ function saveTasks() {
 
   // Guarda o array global de tasks na local storage
   localStorage.setItem('tasks', JSON.stringify(tasksArray));
-}
+}*/
 // Carrega as tarefas guardadas na local storage
-function loadTasks() {
-  const tasksArray = JSON.parse(localStorage.getItem('tasks'));
+async function loadTasks() {
 
-  if (tasksArray) { 
-      // Define an array to store all task arrays
-      // concatena todos os arrays de tarefas num unico array
-      // a função reduce() executa uma função reducer (fornecida por você) para cada elemento do array, resultando num único valor de retorno. a função reducer é alimentada por quatro parâmetros:
-      // Acumulador (acc) (valor inicial igual ao primeiro valor do array, ou valor do parâmetro initialValue);
-      // Valor Atual (cur) (o valor do elemento atual);
-      // Index Atual (idx) (o índice atual do elemento sendo processado no array);
-      // Array (src) (o array original ao qual a função reduce() foi chamada).
-      // O valor retornado da sua função reducer é atribuída ao acumulador. O acumulador, com seu valor atualizado, é repassado para cada iteração subsequente pelo array, que por fim, se tornará o valor resultante, único, final.
-      const allTasks = tasksArray.reduce((acc, curr) => acc.concat(curr), []);
-      allTasks.forEach(task => {
-      const taskElement = createTaskElement(task);
-      const panel = document.getElementById(task.status);
-      panel.appendChild(taskElement);
-      attachDragAndDropListeners(taskElement);
+     await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/tasks', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'username': sessionStorage.getItem('username'),
+        'password': sessionStorage.getItem('password')
+      }
+    }).then(async function(response){
+      if (response.status === 200){
+        const taskArray = await response.json();
+        
+        if (taskArray.length > 0) {
+          taskArray.forEach(task => {
+            const taskElement = createTaskElement(task);
+            if (task.status === 10) {
+              document.getElementById('todo').appendChild(taskElement);
+            } else if (task.status === 20) {
+              document.getElementById('doing').appendChild(taskElement);
+            }else if (task.status === 30) {
+              document.getElementById('done').appendChild(taskElement);
+            }
+            attachDragAndDropListeners(taskElement);
+          });
+        }
+        
+      }else if (response.status === 404){
+        alert('User not found');
+      }else if (response.status === 401){
+        alert('Unauthorized');
+      }
     });
   }
-}
 
-function deleteTask(id) {
-  const tasksArray = JSON.parse(localStorage.getItem('tasks'));
-
-  // Iteração sobre todos os arrays de tasks para encontrar e remover a task
-  tasksArray.forEach(taskArray => {
-    const index = taskArray.findIndex(task => task.identificacao === id); // Retorna o index da tarefa com o ID passado como argumento
-    if (index !== -1) { // Se o index for diferente de -1
-      taskArray.splice(index, 1); // Remove a tarefa do array
-      const taskElement = document.getElementById(id); // Guarda o elemento da tarefa
-      taskElement.remove(); // Remove o elemento da tarefa
+  
+  async function deleteTask(id) {
+    try {
+      const response = await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/removetask', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'username': sessionStorage.getItem('username'),
+          'password': sessionStorage.getItem('password'),
+          'id': id
+        }
+      });
+  
+      if (response.ok) {
+        alert('Task deleted');
+      } else if (response.status === 404) {
+        alert('Task not found');
+      } else if (response.status === 401) {
+        alert('Unauthorized');
+      } else {
+        // Handle other response status codes
+        console.error('Unexpected response:', response.status);
+      }
+    } catch (error) {
+      console.error('Error deleting task:', error);
+      // Handle fetch errors
+      alert('Error deleting task. Please try again.');
     }
-    saveTasks();
-  });
-}
+  }
+  
 
-window.onclose = function () { // Guarda as tarefas na local storage quando a página é fechada
-  saveTasks();
-}
  // Elemento html onde vai ser mostrada a hora
 const displayTime = document.querySelector(".display-time");
 
@@ -262,7 +319,7 @@ function showTime() {
   setTimeout(showTime, 1000);
 }
 
-showTime();
+
 
 // Data
 function updateDate() { // Mostra a data atual
@@ -305,12 +362,21 @@ function updateDate() { // Mostra a data atual
   }
 }
 
-updateDate();
+    
 
 
-document.addEventListener('click', (e)=>{
-  if (e.target.matches('.fa-regular')){
-    window.location.href = 'profileEdition.html';
-  }
-})
+document.querySelector('.fa-regular').addEventListener('click', () => {
+  window.location.href = 'profileEdition.html';
+});
+
+document.getElementById('logout').addEventListener('click', () => {
+  sessionStorage.clear();
+  window.location.href = 'index.html';
+});
+
+window.onclose = function () { // Guarda as tarefas na local storage quando a página é fechada
+  sessionStorage.clear();
+  localStorage.clear();
+}
+
 

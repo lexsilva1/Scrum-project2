@@ -149,6 +149,7 @@ public class UserBean {
             if (a.getUsername().equals(username)) {
                 a.removeTask(id);
                 writeIntoJsonFile();
+                return;
             }
         }
     }
