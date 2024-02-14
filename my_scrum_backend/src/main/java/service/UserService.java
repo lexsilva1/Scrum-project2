@@ -32,7 +32,7 @@ public class UserService {
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(User a) {
-        if(a.getUsername() == null || a.getPassword() == null || a.getContactNumber() == null || a.getEmail() == null || a.getName() == null){
+        if(a.getUsername() == null || a.getPassword() == null || a.getContactNumber() == null || a.getEmail() == null || a.getName() == null || a.getUserPhoto() == null){
             return Response.status(400).entity("All elements are required are required").build();
         }
         boolean user = userBean.userExists(a.getUsername());
@@ -60,6 +60,7 @@ public class UserService {
                     return Response.status(200).entity(user1.getTasks()).build();
                 }
             }
+
     @POST
     @Path("/addtask")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -78,6 +79,7 @@ public class UserService {
             return Response.status(200).entity(user1).build();
         }
     }
+
     @DELETE
     @Path("/removetask")
     @Produces(MediaType.APPLICATION_JSON)
@@ -110,9 +112,6 @@ public class UserService {
         return Response.status(200).entity(user1).build();
     }
 
-
-
-
     @DELETE
     @Path("/delete")
     @Produces(MediaType.APPLICATION_JSON)
@@ -144,17 +143,13 @@ public class UserService {
 
         }
     }
-    @GET
-    @Path("/userPhoto")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response userPhoto(User a){
-        if (a.getUserPhoto()==null) {
-            return Response.status(404).entity("User with this username and password is not found").build();
-        }else {
-            return Response.status(200).entity(a.getUserPhoto()).build();
 
-        }
+    /*@GET
+    @Path("{username}")
+    @Produces (MediaType.APPLICATION_JSON)
+    public Response getUser(@HeaderParam("username") String username){
     }
 
-
+    */
 }
+

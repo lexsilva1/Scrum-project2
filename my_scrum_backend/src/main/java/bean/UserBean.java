@@ -59,6 +59,7 @@ public class UserBean {
                 a.setEmail(user.getEmail());
                 a.setPassword(user.getPassword());
                 a.setContactNumber(user.getContactNumber());
+                a.setUserPhoto(user.getUserPhoto());
                 writeIntoJsonFile();
                 return true;
             }
@@ -84,6 +85,7 @@ public class UserBean {
             }
         }
     }
+
 
     //para cada parametro do user fazer confirmação
     public boolean nameIsBlank(User user){
@@ -141,7 +143,8 @@ public class UserBean {
         }
         return false;
 
-    }public void removeTaskFromUser(String username, String id) {
+    }
+    public void removeTaskFromUser(String username, String id) {
         for (User a : users) {
             if (a.getUsername().equals(username)) {
                 a.removeTask(id);
@@ -149,5 +152,7 @@ public class UserBean {
             }
         }
     }
+
+
 
 }
