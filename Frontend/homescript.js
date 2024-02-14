@@ -1,4 +1,4 @@
-window.onload = function () {
+window.onload = async function () {
     var username = sessionStorage.getItem("username");
     if (username) {
       document.getElementById("login").textContent = username;
@@ -6,13 +6,10 @@ window.onload = function () {
     loadTasks();
     updateDate();
     showTime();
-    const userPhoto = getUserPhoto();
-    if(userPhoto !== null){
-    document.getElementById('profileImageHome').src = userPhoto;
-    } else {
-      document.getElementById('profileImageHome').src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
-  }
-};
+    document.getElementById('profileImageHome').src = await getUserPhoto();
+    console.log(document.getElementById('profileImageHome'))
+    console.log(getUserPhoto());
+  };
 
 
 
@@ -406,28 +403,27 @@ window.onclose = function () { // Guarda as tarefas na local storage quando a p√
 
 
 //fazer fetch ao ficheiro do backend
-async function getUserPhoto() {
-  const response = await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/photo', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'username': sessionStorage.getItem('username'),
-      'password': sessionStorage.getItem('password')
+async function getUserPhoto(){
+  try {
+    const response = await fetch(`http://localhost:8080/lexsilva-pedromont-proj2/rest/user/${sessionStorage.getItem('username')}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch user data');
     }
-  });
-
-  if (response.ok) {
-    const photo = await response.json();
-    console.log(photo);
-    return photo;
-  } else if (response.status === 404) {
-    alert('User not found');
-  } else if (response.status === 401) {
-    alert('Unauthorized');
-  }else if (response.status === 400) {
-      return null;
-  } else {
-    // Handle other response status codes
-    console.error('Unexpected response:', response.status);
+    
+    const obj = await response.json();
+    console.log(obj);
+    console.log(obj.userPhoto);
+    sessionStorage.setItem('photo', obj.userPhoto);
+    return obj.userPhoto;
+    
+  } catch (error) {
+    console.error('Something went wrong:', error);
+    // Re-throw the error or return a rejected promise
+    throw error;
   }
 }
+
+
+//fazer parse ao ficheiro json para um objeto
+//aceder ao atributo do objeto 
+//assign esse atributo ao elemento do documento
