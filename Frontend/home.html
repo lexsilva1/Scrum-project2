@@ -29,7 +29,7 @@
             <img id="profileImageHome" src ="" alt="Avatar">
             <i id ="btnToEdit" class="fa-regular fa-id-card"></i>
         </div>
-        <button class="logout-button" onclick="location.href='index.html'">
+        <button class="logout-button" id="logout">
             <img src="multimedia/logout.png" alt="Logout Icon">
             Logout
         </button>
@@ -49,10 +49,8 @@
                     <button class="priority-button-home high" id="high-button-home">High</button>
                 </div>
             <div id="taskDate">
-                <label>Start-date</label>
-                <input type ="date">
-                <label>End-date</label>
-                <input type ="date">
+                <input class = "dateinput" id ="startdate" type ="date" placeholder="Start-date">
+                <input class = "dateinput" id ="enddate" type ="date" placeholder="End-date">
             </div>
             <button id="addTask">Add task</button>
             <p id="warningMessage2"></p>

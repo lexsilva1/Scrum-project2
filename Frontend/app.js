@@ -1,3 +1,7 @@
+window.onload = function() {
+   sessionStorage.clear();
+}
+
 // ID do botão loginButton
 document.getElementById('loginButton').addEventListener('click', function() {
     var loginValue = document.getElementById('login').value.trim();
