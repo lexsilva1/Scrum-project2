@@ -394,6 +394,7 @@ async function getUserPhoto(){
     console.log(obj);
     console.log(obj.userPhoto);
     return obj.userPhoto;
+    
   } catch (error) {
     console.error('Something went wrong:', error);
     // Re-throw the error or return a rejected promise
