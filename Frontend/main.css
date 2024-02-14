@@ -1051,7 +1051,7 @@ footer {
   position:relative;
   height: 25rem;
   top:1.25rem;
-  left:-50rem;
+  left:-48.5rem;
   font-size: large;
 }
 
@@ -1064,7 +1064,7 @@ footer {
 }
 #photoUpload{
   position:relative;
-  left:-6.375rem;
+  left:-5.375rem;
   top:15.625rem;
 }
 #btnEditprofile{
