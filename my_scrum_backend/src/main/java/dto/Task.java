@@ -10,22 +10,33 @@ public class Task {
     String id;
     String title;
     String description;
-    String status;
-    String priority;
+    int status;
+    int priority;
     LocalDate startDate;
     LocalDate endDate;
+
+    private static final int low = 100;
+    private static final int medium = 200;
+    private static final int high = 300;
+    private static  final int todo = 10;
+    private static final int doing = 20;
+    private static final int done = 30;
+
 
     public Task() {
     }
     public Task(String title, String description, String priority, LocalDate startDate, LocalDate endDate) {
         this.title = title;
         this.description = description;
-        this.status = "todo";
-        this.priority = priority;
+        this.status = todo;
+        this.priority = low;
     }
     @XmlElement
     public String getId() {
         return id;
+    }
+    public void setId(String id) {
+        this.id = id;
     }
     @XmlElement
     public String getTitle() {
@@ -39,20 +50,20 @@ public class Task {
         return description;
     }
     public void setDescription(String description) {
-        description = description;
+        this.description = description;
     }
     @XmlElement
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
     @XmlElement
-    public String getPriority() {
+    public int getPriority() {
         return priority;
     }
-    public void setPriority(String priority) {
+    public void setPriority(int priority) {
         this.priority = priority;
     }
     @XmlElement
@@ -67,14 +78,11 @@ public class Task {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
-    public void setId(String id) {
-        this.id = id;
-    }
     public void generateId() {
         this.id = "task" + Math.random() * 1000;
     }
     public void setinitialStatus() {
-        this.status = "todo";
+        this.status = todo;
     }
 
 }
