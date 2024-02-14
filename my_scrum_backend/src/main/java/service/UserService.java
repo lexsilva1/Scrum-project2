@@ -32,16 +32,17 @@ public class UserService {
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(User a) {
-        if(a.getUsername() == null || a.getPassword() == null || a.getContactNumber() == null || a.getEmail() == null || a.getName() == null){
+        if(a.getUsername() == null || a.getPassword() == null || a.getContactNumber() == null || a.getEmail() == null || a.getName() == null || a.getUserPhoto() == null){
             return Response.status(400).entity("All elements are required are required").build();
         }
         boolean user = userBean.userExists(a.getUsername());
         if (user) {
 
             return Response.status(409).entity("User with this username is already exists").build();
+        } else {
+            userBean.addUser(a);
+            return Response.status(200).entity("A new user is created").build();
         }
-        userBean.addUser(a);
-        return Response.status(200).entity("A new user is created").build();
     }
 
     @GET
@@ -59,6 +60,7 @@ public class UserService {
                     return Response.status(200).entity(user1.getTasks()).build();
                 }
             }
+
     @POST
     @Path("/addtask")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -75,6 +77,7 @@ public class UserService {
             return Response.status(200).entity("task added successfully").build();
         }
     }
+
     @DELETE
     @Path("/removetask")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -109,7 +112,7 @@ public class UserService {
     @GET
     @Path("/{username}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser(@PathParam("username")String username){
+    public Response getUser(@PathParam("username") String username) {
         boolean exists = userBean.userExists(username);
         User user = userBean.getUser(username);
         if (!exists) {
@@ -118,9 +121,6 @@ public class UserService {
             return Response.status(200).entity(user).build();
         }
     }
-
-
-
 
     @DELETE
     @Path("/delete")
@@ -162,3 +162,4 @@ public class UserService {
         }
     }
 }
+

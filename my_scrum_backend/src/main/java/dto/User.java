@@ -17,17 +17,19 @@ public class User {
     String password;
     String contactNumber;
     ArrayList<Task> tasks = new ArrayList<Task>();
+    String userPhoto;
 
     public User() {
     }
 
-    public User(String id, String username, String name, String email, String password, String contactNumber) {
+    public User(String id, String username, String name, String email, String password, String contactNumber, String userPhoto) {
         this.id = id;
         this.username = username;
         this.name = name;
         this.email = email;
         this.password = password;
         this.contactNumber = contactNumber;
+        this.userPhoto = userPhoto;
     }
 
     @XmlElement
@@ -81,6 +83,13 @@ public class User {
     }
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
+    }
+    public void setUserPhoto(String userPhoto){
+        this.userPhoto = userPhoto;
+    }
+    @XmlElement
+    public String getUserPhoto(){
+        return userPhoto;
     }
     @XmlElement
     public ArrayList<Task> getTasks() {
