@@ -405,7 +405,7 @@ window.onclose = function () { // Guarda as tarefas na local storage quando a p√
 //fazer fetch ao ficheiro do backend
 async function getUserPhoto(){
   try {
-    const response = await fetch(`http://localhost:8080/lexsilva-pedromont-proj2/rest/user/${sessionStorage.getItem('username')}`);
+    const response = await fetch(`http://localhost:8080/my_scrum_backend_war_exploded/rest/user/${sessionStorage.getItem('username')}`);
     if (!response.ok) {
       throw new Error('Failed to fetch user data');
     }
