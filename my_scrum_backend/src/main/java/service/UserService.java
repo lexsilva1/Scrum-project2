@@ -112,14 +112,11 @@ public class UserService {
     @GET
     @Path("/{username}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser(@HeaderParam("username")String username, @HeaderParam("password") String password){
+    public Response getUser(@PathParam("username") String username) {
         boolean exists = userBean.userExists(username);
-        boolean authorized = userBean.isUserAuthorized(username, password);
         User user = userBean.getUser(username);
         if (!exists) {
             return Response.status(404).entity("User with this username is not found").build();
-        } else if (!authorized) {
-            return Response.status(401).entity("Unauthorized").build();
         } else {
             return Response.status(200).entity(user).build();
         }
@@ -164,13 +161,5 @@ public class UserService {
 
         }
     }
-
-    /*@GET
-    @Path("{username}")
-    @Produces (MediaType.APPLICATION_JSON)
-    public Response getUser(@HeaderParam("username") String username){
-    }
-
-    */
 }
 
