@@ -7,7 +7,7 @@ window.onload = function () {
     updateDate();
     showTime();
     document.getElementById('profileImageHome').src = getUserPhoto();
-    console.log(document.getElementById('profileImageHome').src)
+    console.log(document.getElementById('profileImageHome'))
     console.log(getUserPhoto());
   };
 
@@ -384,16 +384,23 @@ window.onclose = function () { // Guarda as tarefas na local storage quando a p√
 
 //fazer fetch ao ficheiro do backend
 async function getUserPhoto(){
-  fetch (`http://localhost:8080/lexsilva-pedromont-proj2/rest/user/${sessionStorage.getItem('username')}`).then(function(response){
-    return response.json();
-  }).then(function(obj){
-    return obj.userPhoto;
+  try {
+    const response = await fetch(`http://localhost:8080/lexsilva-pedromont-proj2/rest/user/${sessionStorage.getItem('username')}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch user data');
+    }
+    
+    const obj = await response.json();
+    console.log(obj);
     console.log(obj.userPhoto);
-  }).catch(function(error){
-    console.error('something went wrong');
-    console.error(error);
-  })
+    return obj.userPhoto;
+  } catch (error) {
+    console.error('Something went wrong:', error);
+    // Re-throw the error or return a rejected promise
+    throw error;
+  }
 }
+
 
 //fazer parse ao ficheiro json para um objeto
 //aceder ao atributo do objeto 
