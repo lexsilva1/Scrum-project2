@@ -169,7 +169,7 @@ async function checkUsername(newUser){
     }
 }
 
-
+//função que cria novo utilizador
 async function postUser(newUser){
     // Send POST request with newUser data
      try {
@@ -196,6 +196,7 @@ catch (error) {
 document.getElementById('cancelRegistryButton').addEventListener('click',()=>{
     window.location.href='index.html'
 })
+//função para transformar a password em texto
 document.addEventListener('click', (e)=>{
     if (e.target.matches('.fa-regular')){
         const seePassword = document.querySelectorAll('input[type="password"]');

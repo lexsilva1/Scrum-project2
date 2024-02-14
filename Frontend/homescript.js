@@ -9,9 +9,11 @@ window.onload = function () {
   };
 
 
+
   if(sessionStorage.getItem('username') === null || sessionStorage.getItem('username') === ''){
     window.location.href = 'index.html';
   }
+
 //document.getElementById('profileImageHome').src = ''
 const tasks = document.querySelectorAll('.task')
 const panels = document.querySelectorAll('.panel')
