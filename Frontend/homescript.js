@@ -314,3 +314,15 @@ document.addEventListener('click', (e)=>{
   }
 })
 
+//fazer fetch ao ficheiro do backend
+fetch (`http://localhost:8080/lexsilva-pedromont-proj2/rest/user/${username}`).then(function(response){
+  return response.json();
+}).then(function(obj){
+  console.log(obj);
+}).catch(function(error){
+  console.error('something went wrong');
+  console.error(error);
+})
+//fazer parse ao ficheiro json para um objeto
+//aceder ao atributo do objeto 
+//assign esse atributo ao elemento do documento
