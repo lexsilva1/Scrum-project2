@@ -117,8 +117,8 @@ async function updateTask() {
          description: document.getElementById("descricao-task").value.trim(),
          status: taskElementstatus,
          priority: sessionStorage.getItem("taskPriority"),
-         startdate: document.getElementById('startdate').value,
-         enddate: document.getElementById('enddate').value
+         startDate: document.getElementById('startdate').value,
+         endDate: document.getElementById('enddate').value
 
       };
    
@@ -177,6 +177,6 @@ savebutton.addEventListener("click", () => {
     sessionStorage.removeItem("taskPriority");
     sessionStorage.removeItem("taskStartdate");
     sessionStorage.removeItem("taskEnddate");
-    //window.location.href = 'home.html';
+    window.location.href = 'home.html';
     }
 });
