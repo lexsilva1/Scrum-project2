@@ -27,6 +27,8 @@ function attachDragAndDropListeners(task) { // Adiciona os listeners de drag and
 
   task.addEventListener('dragend', () => {
       task.classList.remove('dragging')
+      console.log(task.status)
+      updateTask(task);
   });
 }
 
@@ -37,7 +39,6 @@ panels.forEach(panel => { // Adiciona os listeners de drag and drop a um painel
     const task = document.querySelector('.dragging')
     const panelID = document.getElementById(panel.id) // Guarda o ID do painel onde a tarefa vai ser colocada
     if (afterElement == null) {
-      console.log('null')
       panel.appendChild(task)
       task.status = panel.id;
       for (var i = 0; i < tasks.length; i++) { // Percorre o array de tarefas e altera o status da tarefa para o painel onde foi colocada
@@ -111,7 +112,7 @@ document.getElementById('addTask').addEventListener('click', function() {
   } else {
     document.getElementById('warningMessage2').innerText = '';
   }
-  if (Name.trim() !== '' && Description.trim() !== '' && priority !== null && startdate !== '' && enddate !== '' && startdate < enddate){
+  if (Name.trim() !== '' && Description.trim() !== '' && priority !== null && startdate !== '' && enddate !== '' && startdate <= enddate){
       const task = createTask(Name, Description, priority,startdate,enddate);
       postTask(task);
       const taskElement =createTaskElement(task);
@@ -137,12 +138,13 @@ function createTask(name, description, priority,startdate,enddate) { // Cria uma
   title :name,
   description: description,
   priority: priority,
-  startdate: startdate,
-  enddate: enddate,
+  startDate: startdate,
+  endDate: enddate,
   }
   return task;
 }
 async function postTask(task) {
+  console.log(task);
   await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/addtask', {
     method: 'POST',
     headers: {
@@ -221,6 +223,8 @@ function createTaskElement(task) {
         sessionStorage.setItem("taskid", taskElement.id);
         sessionStorage.setItem("taskStatus", taskElement.status);
         sessionStorage.setItem("taskPriority", taskElement.priority);
+        sessionStorage.setItem("taskStartDate", task.startDate);
+        sessionStorage.setItem("taskEndDate", task.endDate);
         window.location.href = 'task.html';
     });
 
@@ -292,15 +296,24 @@ async function loadTasks() {
     }
   }
   async function updateTask(taskElement) {
+   let taskElementstatus;
+    if(taskElement.status === "todo"){
+      taskElementstatus = 10
+    }else if(taskElement.status === "doing"){
+      taskElementstatus = 20
+    }else if(taskElement.status === "done"){
+      taskElementstatus = 30
+    }
     let task = {
       id: taskElement.id,
       title: taskElement.title,
       description: taskElement.description,
       priority: taskElement.priority,
-      startdate: taskElement.startdate,
-      enddate: taskElement.enddate,
-      status: taskElement.status
+      startDate: taskElement.startdate,
+      endDate: taskElement.enddate,
+      status: taskElementstatus
     };
+  
     try {
       const response = await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/updatetask', {
         method: 'PUT',

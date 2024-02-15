@@ -1,13 +1,18 @@
 window.onload = function () {
-    var username = sessionStorage.getItem("login"); // Obter o user da session storage
-    var descricao = sessionStorage.getItem("taskDescription"); // Obter a descrição da session storage
-    var titulo = sessionStorage.getItem("taskTitle"); // Obter o título da session storage
+    let username = sessionStorage.getItem("username"); // Obter o user da session storage
+    let descricao = sessionStorage.getItem("taskDescription"); // Obter a descrição da session storage
+    let titulo = sessionStorage.getItem("taskTitle"); // Obter o título da session storage
+    let taskid = sessionStorage.getItem("taskid"); // Obter o id da task da session storage
+    let startdate = sessionStorage.getItem("taskStartDate"); // Obter a data de início da session storage
+    let enddate = sessionStorage.getItem("taskEndDate"); // Obter a data de fim da session storage
     if (username) {
         document.getElementById("login").textContent = username; // Colocar o user no header
         document.getElementById('titulo-task').textContent = titulo; // Colocar o título no input title
         document.getElementById('descricao-task').textContent = descricao; // Colocar a descrição na text area
         document.getElementById('tasktitle').innerHTML = titulo; // Colocar o título no título da página
         document.getElementById("task-bc").textContent = titulo; // Colocar o título no breadcrumb
+        document.getElementById("startdate").value = startdate; // Colocar a data de início no input startdate
+        document.getElementById("enddate").value = enddate; // Colocar a data de fim no input enddate
     }
 };
 
@@ -27,7 +32,7 @@ const highButton = document.getElementById("high-button");
 var taskStatus = sessionStorage.getItem("taskStatus");
 if(taskStatus == "todo"){
 todoButton.classList.add("selected");
-} else if( taskStatus== "doing"){
+} else if( taskStatus == "doing"){
 doingButton.classList.add("selected");
 } else if(taskStatus == "done"){
 doneButton.classList.add("selected");
@@ -35,11 +40,11 @@ doneButton.classList.add("selected");
 
 // Definir o botão Low como default
 var taskPriority = sessionStorage.getItem("taskPriority");
-if(taskPriority == "low"){
+if(taskPriority == 100){
     lowButton.classList.add("selected");
-} else if( taskPriority== "medium"){
+} else if( taskPriority == 200){
     mediumButton.classList.add("selected");
-} else if(taskPriority == "high"){
+} else if(taskPriority == 300){
     highButton.classList.add("selected");
 }
 // Função para definir o estado no grupo de botões status
@@ -64,9 +69,9 @@ doingButton.addEventListener("click", () => setStatusButtonSelected(doingButton,
 doneButton.addEventListener("click", () => setStatusButtonSelected(doneButton, "done"));
 
 // Event listeners para os botões priority
-lowButton.addEventListener("click", () => setPriorityButtonSelected(lowButton, "low"));
-mediumButton.addEventListener("click", () => setPriorityButtonSelected(mediumButton, "medium"));
-highButton.addEventListener("click", () => setPriorityButtonSelected(highButton, "high"));
+lowButton.addEventListener("click", () => setPriorityButtonSelected(lowButton, 100));
+mediumButton.addEventListener("click", () => setPriorityButtonSelected(mediumButton, 200));
+highButton.addEventListener("click", () => setPriorityButtonSelected(highButton, 300));
 
 const cancelbutton = document.getElementById("cancel-button");
 cancelbutton.addEventListener("click", () => {
@@ -88,50 +93,90 @@ cancelbutton.addEventListener("click", () => {
         sessionStorage.removeItem("taskid");
         sessionStorage.removeItem("taskStatus");
         sessionStorage.removeItem("taskPriority");
+        sessionStorage.removeItem("taskStartdate");
+        sessionStorage.removeItem("taskEnddate");
         window.location.href = 'home.html';    
     });
     cancelModal.style.display = "grid";
 });
 
-// Função para update das tasks
-const updateTasks = (tasks, taskid, taskStatus, taskDescription, taskTitle, taskPriority) => {
-    tasks.forEach(category => {
-        category.forEach(task => {
-            if (task.identificacao === taskid) {
-                task.title = taskTitle;
-                task.description = taskDescription;
-                task.status = taskStatus;
-                task.priority = taskPriority;
-            }
-        });
-    });
-};
+// funçaõ de update das tasks
+async function updateTask() {
+    let taskElementstatus=sessionStorage.getItem("taskStatus");
 
+    if(taskElementstatus === "todo"){
+      taskElementstatus = 10
+    }else if(taskElementstatus === "doing"){
+      taskElementstatus = 20
+    }else if(taskElementstatus === "done"){
+      taskElementstatus = 30
+    }
+     let task = {
+         id: sessionStorage.getItem("taskid"),
+         title: document.getElementById("titulo-task").value.trim(),
+         description: document.getElementById("descricao-task").value.trim(),
+         status: taskElementstatus,
+         priority: sessionStorage.getItem("taskPriority"),
+         startdate: document.getElementById('startdate').value,
+         enddate: document.getElementById('enddate').value
+
+      };
+   
+     try {
+       const response = await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/updatetask', {
+         method: 'PUT',
+         headers: {
+           'Content-Type': 'application/json',
+           'username': sessionStorage.getItem('username'),
+           'password': sessionStorage.getItem('password')
+         },
+         body: JSON.stringify(task)
+       });
+   
+       if (response.ok) {
+         console.log('Task updated');
+       } else if (response.status === 404) {
+         console.log('Task not found');
+       } else if (response.status === 401) {
+         console.log('Unauthorized');
+       } else {
+         // Handle other response status codes
+         console.error('Unexpected response:', response.status);
+       }
+     } catch (error) {
+       console.error('Error updating task:', error);
+       // Handle fetch errors
+       alert('Error updating task. Please try again.');
+     }
+   }
 // Event listener para o botão save
 const savebutton = document.getElementById("save-button");
 savebutton.addEventListener("click", () => {
-    var tasks = JSON.parse(localStorage.getItem("tasks"));
-    var taskid = sessionStorage.getItem("taskid");
-    var taskStatus = sessionStorage.getItem("taskStatus");
-    var taskDescription = document.getElementById("descricao-task").value.trim();
-    var taskTitle = document.getElementById("titulo-task").value.trim();
-    var taskPriority = sessionStorage.getItem("taskPriority");
+    let taskDescription = document.getElementById("descricao-task").value.trim();
+    let taskTitle = document.getElementById("titulo-task").value.trim();
     
     if (taskDescription === "" || taskTitle === "") {
         document.getElementById('warningMessage3').innerText = 'Your task must have a title and a description';
             return;
-    } else {
+    } else if (document.getElementById('startdate').value === "" || document.getElementById('enddate').value === "") {
+        document.getElementById('warningMessage3').innerText = 'Your task must have a start and end date';
+            return;
+    }else if (document.getElementById('startdate').value > document.getElementById('enddate').value) {
+        document.getElementById('warningMessage3').innerText = 'The start date must be before the end date';
+            return; 
+    }
+    else {
+        updateTask();
         // Limpa mensagem de erro
         document.getElementById('warningMessage3').innerText = '';
-    }
-   
-    updateTasks(tasks, taskid, taskStatus, taskDescription, taskTitle, taskPriority);
 
-    localStorage.setItem("tasks", JSON.stringify(tasks));
     sessionStorage.removeItem("taskDescription");
     sessionStorage.removeItem("taskTitle");
     sessionStorage.removeItem("taskid");
     sessionStorage.removeItem("taskStatus");
     sessionStorage.removeItem("taskPriority");
-    window.location.href = 'home.html';
+    sessionStorage.removeItem("taskStartdate");
+    sessionStorage.removeItem("taskEnddate");
+    //window.location.href = 'home.html';
+    }
 });

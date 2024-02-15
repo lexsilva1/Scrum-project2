@@ -58,6 +58,8 @@ public class UserService {
     public Response addTaskToUser(@HeaderParam("username") String username,@HeaderParam("password") String password, Task task) {
         boolean user = userBean.userExists(username);
         boolean authorized = userBean.isUserAuthorized(username, password);
+        System.out.println(task.getStartDate());
+        System.out.println(task.getEndDate());
         if (!user) {
             return Response.status(404).entity("User with this username is not found").build();
         }else if (!authorized) {
@@ -84,7 +86,7 @@ public class UserService {
         userBean.removeTaskFromUser(username, id);
         return Response.status(200).entity("task Deleted").build();
     }
-    @POST
+    @PUT
     @Path("/updatetask")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

@@ -81,6 +81,7 @@ public class UserBean {
         for (User a : users) {
             if (a.getUsername().equals(username)) {
                 a.addTask(task);
+                System.out.println("++++++++++++++++++++"+task.getStartDate());
                 writeIntoJsonFile();
             }
         }
