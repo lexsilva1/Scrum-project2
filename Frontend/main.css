@@ -1036,6 +1036,13 @@ footer {
 
 
 /*----------------------------PAGINA DE EDIÇÃO----------------------*/
+#confirmChanges{
+  top:150px;
+  height: 150px;
+  width: 250px;
+  position: absolute;
+  z-index: 1;
+}
 #editSection{
   display:flex;
   align-self: center;
