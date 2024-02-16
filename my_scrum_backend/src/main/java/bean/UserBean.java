@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import dto.Task;
@@ -131,6 +132,21 @@ public class UserBean {
             }
         }
         return false;
+    }
+    public boolean isUserValid(User user) {
+        if (user.getUsername().isBlank() || user.getPassword().isBlank() || user.getName().isBlank() || user.getEmail().isBlank() || user.getContactNumber().isBlank() || user.getUserPhoto().isBlank()){
+            return false;
+        } else if(user.getUsername()==null || user.getPassword()==null || user.getName()==null || user.getEmail()==null || user.getContactNumber()==null || user.getUserPhoto()==null){
+            return false;
+        }
+        return true;
+    }
+    public boolean isTaskValid(Task task) {
+        if (task.getTitle().isBlank() || task.getDescription().isBlank() || task.getStartDate() == null || task.getEndDate() == null) {
+            return false;
+        } else {
+            return task.getTitle() != null && task.getDescription() != null && task.getStartDate() != null && task.getEndDate() != null;
+        }
     }
 
 

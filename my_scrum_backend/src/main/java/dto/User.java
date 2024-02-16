@@ -3,6 +3,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 
 @XmlRootElement
@@ -132,4 +133,30 @@ public class User {
             }
         }
     }
-}
+    public ArrayList<Task> orderedtasks() {
+        ArrayList<Task> status10 = new ArrayList<Task>();
+        ArrayList<Task> status20 = new ArrayList<Task>();
+        ArrayList<Task> status30 = new ArrayList<Task>();
+        for (Task a : tasks) {
+            if (a.getStatus() == 10) {
+                status10.add(a);
+            } else if (a.getStatus() == 20) {
+                status20.add(a);
+            } else if (a.getStatus() == 30) {
+                status30.add(a);
+            }
+        }
+        status10.sort(Comparator.comparing(Task::getPriority,Comparator.reverseOrder()).thenComparing(Comparator.comparing(Task::getStartDate).thenComparing(Task::getEndDate)));
+        status20.sort(Comparator.comparing(Task::getPriority,Comparator.reverseOrder()).thenComparing(Comparator.comparing(Task::getStartDate).thenComparing(Task::getEndDate)));
+        status30.sort(Comparator.comparing(Task::getPriority,Comparator.reverseOrder()).thenComparing(Comparator.comparing(Task::getStartDate).thenComparing(Task::getEndDate)));
+        ArrayList<Task> orderedTasks = new ArrayList<Task>();
+        orderedTasks.addAll(status10);
+        orderedTasks.addAll(status20);
+        orderedTasks.addAll(status30);
+        return orderedTasks;
+    }
+
+
+
+
+    }
