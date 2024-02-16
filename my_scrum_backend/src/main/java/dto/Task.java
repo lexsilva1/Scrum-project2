@@ -3,7 +3,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 
 @XmlRootElement(name = "Task")
 public class Task {
@@ -24,13 +24,10 @@ public class Task {
 
 
     public Task() {
-    }
-    public Task(String title, String description, String priority, LocalDate startDate, LocalDate endDate) {
-        this.title = title;
-        this.description = description;
         this.status = todo;
         this.priority = low;
     }
+
     @XmlElement
     public String getId() {
         return id;
@@ -81,8 +78,10 @@ public class Task {
     public void generateId() {
         this.id = "task" + Math.random() * 1000;
     }
-    public void setinitialStatus() {
-        this.status = todo;
-    }
+     public void setinitialStatus() {
+          this.status = todo;
+     }
+
+
 
 }

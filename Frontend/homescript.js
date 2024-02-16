@@ -7,8 +7,6 @@ window.onload = async function () {
     updateDate();
     showTime();
     document.getElementById('profileImageHome').src = await getUserPhoto();
-    console.log(document.getElementById('profileImageHome'))
-    console.log(getUserPhoto());
   };
 
 
@@ -16,8 +14,7 @@ window.onload = async function () {
   if(sessionStorage.getItem('username') === null || sessionStorage.getItem('username') === ''){
     window.location.href = 'index.html';
   }
-
-const tasks = document.querySelectorAll('.task')
+let tasks = document.querySelectorAll('.task');
 const panels = document.querySelectorAll('.panel')
 
 function attachDragAndDropListeners(task) { // Adiciona os listeners de drag and drop a uma tarefa criada dinamicamente
@@ -27,12 +24,11 @@ function attachDragAndDropListeners(task) { // Adiciona os listeners de drag and
 
   task.addEventListener('dragend', () => {
       task.classList.remove('dragging')
-      console.log(task.status)
       updateTask(task);
   });
 }
-
-panels.forEach(panel => { // Adiciona os listeners de drag and drop a um painel
+// Adiciona os listeners de drag and drop a um painel
+panels.forEach(panel => { 
   panel.addEventListener('dragover', e => {
     e.preventDefault()
     const afterElement = getDragAfterElement(panel, e.clientY)
@@ -40,11 +36,11 @@ panels.forEach(panel => { // Adiciona os listeners de drag and drop a um painel
     const panelID = document.getElementById(panel.id) // Guarda o ID do painel onde a tarefa vai ser colocada
     if (afterElement == null) {
       panel.appendChild(task)
+      console.log(task.status);
       task.status = panel.id;
       for (var i = 0; i < tasks.length; i++) { // Percorre o array de tarefas e altera o status da tarefa para o painel onde foi colocada
         if (tasks[i].id == task.id) {
           tasks[i].status = panelID; // Atualiza o status da tarefa
-          updateTask(tasks[i]); // Faz fetch para atualizar a tarefa na base de dados
         }
       }
       
@@ -54,7 +50,6 @@ panels.forEach(panel => { // Adiciona os listeners de drag and drop a um painel
       for (var i = 0; i < tasks.length; i++) {
         if (tasks[i].id == task.id) {
           tasks[i].status = panelID;
-          updateTask(tasks[i]);
         }
       }
     }
@@ -114,13 +109,14 @@ document.getElementById('addTask').addEventListener('click', function() {
   }
   if (Name.trim() !== '' && Description.trim() !== '' && priority !== null && startdate !== '' && enddate !== '' && startdate <= enddate){
       const task = createTask(Name, Description, priority,startdate,enddate);
+      console.log("start date"+startdate);console.log("enddate"+enddate);
       postTask(task);
+      task.status = 10;
       const taskElement =createTaskElement(task);
-     document.getElementById('todo').appendChild(taskElement);
-
-      // Adicionar os listeners drag and drop à task criada de forma dinâmica
-      attachDragAndDropListeners(taskElement);
-
+      document.getElementById('todo').appendChild(taskElement);
+      attachDragAndDropListeners(taskElement);// Adicionar os listeners drag and drop à task criada de forma dinâmica
+      
+      
       // Limpar os input fields depois de adicionar a task
       document.getElementById('taskName').value = '';
       document.getElementById('taskDescription').value = '';
@@ -130,7 +126,6 @@ document.getElementById('addTask').addEventListener('click', function() {
       taskPriority = null;
 
   }
- 
 });
 
 function createTask(name, description, priority,startdate,enddate) { // Cria uma tarefa com o nome, a descrição e a priority passados como argumentos 
@@ -144,7 +139,6 @@ function createTask(name, description, priority,startdate,enddate) { // Cria uma
   return task;
 }
 async function postTask(task) {
-  console.log(task);
   await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/addtask', {
     method: 'POST',
     headers: {
@@ -184,6 +178,8 @@ function createTaskElement(task) {
     }else if(task.status === 30){
     taskElement.status = "done";
     }
+    taskElement.startdate = task.startDate;
+    taskElement.enddate = task.endDate;
 
     const postIt = document.createElement('div');
     postIt.className = 'post-it';
@@ -227,6 +223,7 @@ function createTaskElement(task) {
         sessionStorage.setItem("taskEndDate", task.endDate);
         window.location.href = 'task.html';
     });
+    console.log(taskElement);
 
     return taskElement;
 }
@@ -296,6 +293,8 @@ async function loadTasks() {
     }
   }
   async function updateTask(taskElement) {
+    console.log(taskElement.startDate);
+    console.log(taskElement.endDate);
    let taskElementstatus;
     if(taskElement.status === "todo"){
       taskElementstatus = 10
@@ -340,6 +339,8 @@ async function loadTasks() {
       // Handle fetch errors
       alert('Error updating task. Please try again.');
     }
+
+
   }
 
   
@@ -435,8 +436,3 @@ async function getUserPhoto(){
     throw error;
   }
 }
-
-
-//fazer parse ao ficheiro json para um objeto
-//aceder ao atributo do objeto 
-//assign esse atributo ao elemento do documento
