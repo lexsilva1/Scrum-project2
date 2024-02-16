@@ -60,6 +60,7 @@ public class UserService {
     @POST
     @Path("/addtask")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response addTaskToUser(@HeaderParam("username") String username,@HeaderParam("password") String password, Task task) {
         boolean user = userBean.userExists(username);
         boolean authorized = userBean.isUserAuthorized(username, password);
@@ -72,7 +73,9 @@ public class UserService {
         }else {
             task.generateId();task.setinitialStatus();
             userBean.addTaskToUser(username, task);
-            return Response.status(200).entity("task added successfully").build();
+            User user1 = userBean.getUser(username);
+            System.out.println("task"+task.getTitle()+" "+task.getStatus()+" "+task.getPriority()+" "+task.getId());
+            return Response.status(200).entity(user1.getTaskbyId(task.getId())).build();
         }
     }
 

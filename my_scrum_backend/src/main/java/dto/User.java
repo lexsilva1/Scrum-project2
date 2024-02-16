@@ -155,8 +155,12 @@ public class User {
         orderedTasks.addAll(status30);
         return orderedTasks;
     }
-
-
-
-
+    public Task getTaskbyId(String id) {
+        for (Task a : tasks) {
+            if (a.getId().equals(id)) {
+                return a;
+            }
+        }
+        return null;
     }
+}

@@ -109,12 +109,8 @@ document.getElementById('addTask').addEventListener('click', function() {
   }
   if (Name.trim() !== '' && Description.trim() !== '' && priority !== null && startdate !== '' && enddate !== '' && startdate <= enddate){
       const task = createTask(Name, Description, priority,startdate,enddate);
-      console.log("start date"+startdate);console.log("enddate"+enddate);
       postTask(task);
-      task.status = 10;
-      const taskElement =createTaskElement(task);
-      document.getElementById('todo').appendChild(taskElement);
-      attachDragAndDropListeners(taskElement);// Adicionar os listeners drag and drop à task criada de forma dinâmica
+
       
       
       // Limpar os input fields depois de adicionar a task
@@ -139,7 +135,7 @@ function createTask(name, description, priority,startdate,enddate) { // Cria uma
   return task;
 }
 async function postTask(task) {
-  await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/addtask', {
+    await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/addtask', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -147,9 +143,28 @@ async function postTask(task) {
       'password': sessionStorage.getItem('password')
     },
     body: JSON.stringify(task)
-  }).then(function(response){
+  }).then(async function(response){
     if (response.status === 200){
-      alert('Task added');
+      const taskData= await response.json();
+      console.log(" a task é esta "+taskData.id+" "+taskData.title+" "+taskData.description+" "+taskData.priority+" "+taskData.startDate+" "+taskData.endDate+" "+taskData.status);
+      task = {
+        id: taskData.id,
+        title: taskData.title,
+        description: taskData.description,
+        priority: taskData.priority,
+        startDate: taskData.startDate,
+        endDate: taskData.endDate,
+        status: taskData.status
+      }
+      const taskElement = createTaskElement(task);
+      if (task.status === 10) {
+        document.getElementById('todo').appendChild(taskElement);
+      } else if (task.status === 20) {
+        document.getElementById('doing').appendChild(taskElement);
+      }else if (task.status === 30) {
+        document.getElementById('done').appendChild(taskElement);
+      }
+      attachDragAndDropListeners(taskElement);
     }else if (response.status === 404){
       alert('User not found');
     }

@@ -61,6 +61,7 @@ window.onload = async function(){
         confirmationDialog.close();
         console.log(user);
         updateUserData(user);
+        sessionStorage.setItem('password',user.password)
         window.location.href = 'home.html'
     })
     document.getElementById('declineChangesButton').addEventListener('click',()=>{
@@ -72,7 +73,7 @@ window.onload = async function(){
 
 async function getUserData(){
     try{
-        const response = await fetch(`http://localhost:8080/lexsilva-pedromont-proj2/rest/user/${sessionStorage.getItem('username')}`);
+        const response = await fetch(`http://localhost:8080/my_scrum_backend_war_exploded/rest/user/${sessionStorage.getItem('username')}`);
         if (!response.ok){
         throw new Error ('failed to fetch user data');
         }
@@ -87,7 +88,7 @@ async function getUserData(){
 
 async function updateUserData(user){//chama o user aqui
     try{
-    const response = await fetch(`http://localhost:8080/lexsilva-pedromont-proj2/rest/user/update`,{
+    const response = await fetch(`http://localhost:8080/my_scrum_backend_war_exploded/rest/user/update`,{
         method: 'PUT',
         headers:{
             'Accept':'*/*',
