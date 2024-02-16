@@ -60,6 +60,7 @@ window.onload = async function(){
             }
         confirmationDialog.close();
         console.log(user);
+        sessionStorage.setItem('password', user.password);
         updateUserData(user);
         window.location.href = 'home.html'
     })
