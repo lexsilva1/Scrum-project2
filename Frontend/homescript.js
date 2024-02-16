@@ -139,7 +139,7 @@ function createTask(name, description, priority,startdate,enddate) { // Cria uma
   return task;
 }
 async function postTask(task) {
-  await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/addtask', {
+  await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/addtask', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -230,7 +230,7 @@ function createTaskElement(task) {
 
 async function loadTasks() {
 
-     await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/tasks', {
+     await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/tasks', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -266,7 +266,7 @@ async function loadTasks() {
   
   async function deleteTask(id) {
     try {
-      const response = await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/removetask', {
+      const response = await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/removetask', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -314,7 +314,7 @@ async function loadTasks() {
     };
   
     try {
-      const response = await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/updatetask', {
+      const response = await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/updatetask', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -419,7 +419,7 @@ window.onclose = function () { // Guarda as tarefas na local storage quando a p√
 //fazer fetch ao ficheiro do backend
 async function getUserPhoto(){
   try {
-    const response = await fetch(`http://localhost:8080/my_scrum_backend_war_exploded/rest/user/${sessionStorage.getItem('username')}`);
+    const response = await fetch(`http://localhost:8080/lexsilva-pedromont-proj2/rest/user/${sessionStorage.getItem('username')}`);
     if (!response.ok) {
       throw new Error('Failed to fetch user data');
     }
