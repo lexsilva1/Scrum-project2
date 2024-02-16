@@ -36,13 +36,21 @@
             <label>New password</label>
             <input id ="editNewPassword" type="password" placeholder ="New password">
             <label>Rewrite new password</label>
-            <input type="password" placeholder ="Rewrite new Password">
+            <input id= "rewritePasswordField" type="password" placeholder ="Rewrite new Password">
         </div>
         <div id ="btnEditprofile">
             <button id = "buttonSubmitData" type="button">submit</button>
             <!--abrir modal para concordar se altera ou nao as alterações-->
             <button type = "button" id ="buttonCancelEdition">cancel</button>
-        </div>   
+        </div>
+        <!--modal para validação das alterações-->   
+        <dialog id="confirmChanges">
+            <form method ="dialog">
+            <p>Do you want to confirm the changes?</p>
+            <button id ="confirmChangesButton" type ="button">Yes</button>
+            <button id="declineChangesButton" type="button">No</button>
+            </form>
+        </dialog>
     </section>
     <footer>
         <div class="footer-content">
