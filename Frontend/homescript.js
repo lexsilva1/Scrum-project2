@@ -421,8 +421,7 @@ document.querySelector('.fa-regular').addEventListener('click', () => {
 });
 
 document.getElementById('logout').addEventListener('click', () => {
-  sessionStorage.clear();
-  window.location.href = 'index.html';
+  logout();
 });
 
 window.onclose = function () { // Guarda as tarefas na local storage quando a página é fechada
@@ -450,4 +449,40 @@ async function getUserPhoto(){
     // Re-throw the error or return a rejected promise
     throw error;
   }
+}
+async function logout() {
+  await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/logout', {
+    method: 'GET',
+    headers: {
+      'Accept': '*/*',
+      'Content-Type': 'application/json',
+      username: sessionStorage.getItem('username'),
+      password: sessionStorage.getItem('password'),
+    }
+  }).then(function(response) {
+    if (response.status === 200) {
+      // User is logged in successfully
+      alert('User is logged out successfully :)');  
+     const tasks = document.querySelectorAll('.task');
+     if (tasks.length > 0) {
+        tasks.forEach(task => {
+          updateTask(task);
+        });
+      }
+      sessionStorage.clear();
+      window.location.href = 'index.html';
+    } else if (response.status === 404) {
+      sessionStorage.clear();
+      window.location.href = 'index.html';
+      // User not found
+      alert('User not found');
+    } else {
+      // Something went wrong
+      alert('Something went wrong :(');
+      sessionStorage.clear();
+      window.location.href = 'index.html';
+    }
+  });
+  sessionStorage.clear();
+  window.location.href = 'index.html';
 }

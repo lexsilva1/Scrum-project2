@@ -66,9 +66,14 @@ public class UserService {
         boolean authorized = userBean.isUserAuthorized(username, password);
         System.out.println(task.getStartDate());
         System.out.println(task.getEndDate());
+        System.out.println(task.getPriority());
+        System.out.println(task.getTitle());
+        System.out.println(task.getDescription());
         if (!user) {
+            System.out.println("user not found");
             return Response.status(404).entity("User with this username is not found").build();
         }else if (!authorized) {
+            System.out.println("unauthorized");
             return Response.status(405).entity("Forbidden").build();
         }else {
             task.generateId();task.setinitialStatus();
@@ -156,6 +161,8 @@ public class UserService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateUser(@HeaderParam("username") String username, @HeaderParam("password") String password, User a) {
+        System.out.println(a.getName()+" "+a.getEmail()+" "+a.getContactNumber()+" "+a.getUserPhoto());
+        System.out.println(a.getUsername()+" "+password);
         boolean user = userBean.userExists(username);
         boolean authorized = userBean.isUserAuthorized(username, password);
         boolean valid = userBean.isUserValid(a);
@@ -182,6 +189,17 @@ public class UserService {
         }else {
             return Response.status(200).entity(user).build();
 
+        }
+    }
+    @GET
+    @Path("/logout")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response logout(@HeaderParam("username") String username, @HeaderParam("password") String password){
+        boolean authorized = userBean.isUserAuthorized(username, password);
+        if (!authorized) {
+            return Response.status(405).entity("Forbidden").build();
+        }else {
+            return Response.status(200).entity("Logged out").build();
         }
     }
 }

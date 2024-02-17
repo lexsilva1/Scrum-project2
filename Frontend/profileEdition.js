@@ -52,6 +52,7 @@ window.onload = async function(){
 
     document.getElementById('confirmChangesButton').addEventListener('click',()=>{
         user = {
+            username : user.username,
             name : document.getElementById('editFirstName').value.trim()+' '+document.getElementById('editLastName').value.trim(),
             email: document.getElementById('editUserEmail').value.trim(),
             password : document.getElementById('editNewPassword').value.trim(),
@@ -59,9 +60,7 @@ window.onload = async function(){
             userPhoto : document.getElementById("profileImage").src = document.getElementById('photoUpload').value.trim(),
             }
         confirmationDialog.close();
-        console.log(user);
         updateUserData(user);
-        sessionStorage.setItem('password',user.password)
         window.location.href = 'home.html'
     })
     document.getElementById('declineChangesButton').addEventListener('click',()=>{
@@ -88,7 +87,7 @@ async function getUserData(){
 
 async function updateUserData(user){//chama o user aqui
     try{
-    const response = await fetch(`http://localhost:8080/my_scrum_backend_war_exploded/rest/user/update`,{
+    await fetch(`http://localhost:8080/my_scrum_backend_war_exploded/rest/user/update`,{
         method: 'PUT',
         headers:{
             'Accept':'*/*',
@@ -106,6 +105,7 @@ async function updateUserData(user){//chama o user aqui
         } else if(response.status == 400){
             console.log('failed, user not updated')
         } else if(response.status == 200){
+            sessionStorage.setItem('password',user.password);
             console.log('user updated sucessfully')
         }
     })
