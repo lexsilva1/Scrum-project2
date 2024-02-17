@@ -122,7 +122,6 @@ public class TaskCreator {
 
 
             int responseCode = connection.getResponseCode();
-            System.out.println("Response code: " + responseCode);
             BufferedReader reader;
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
