@@ -60,6 +60,9 @@ window.onload = async function(){
             userPhoto : document.getElementById("profileImage").src = document.getElementById('photoUpload').value.trim(),
             }
         confirmationDialog.close();
+        console.log(user);
+        sessionStorage.setItem('password', user.password);
+
         updateUserData(user);
         window.location.href = 'home.html'
     })

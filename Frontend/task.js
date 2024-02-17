@@ -123,7 +123,7 @@ async function updateTask() {
       };
    
      try {
-       const response = await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/updatetask', {
+       const response = await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/updatetask', {
          method: 'PUT',
          headers: {
            'Content-Type': 'application/json',
