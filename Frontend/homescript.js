@@ -109,12 +109,8 @@ document.getElementById('addTask').addEventListener('click', function() {
   }
   if (Name.trim() !== '' && Description.trim() !== '' && priority !== null && startdate !== '' && enddate !== '' && startdate <= enddate){
       const task = createTask(Name, Description, priority,startdate,enddate);
-      console.log("start date"+startdate);console.log("enddate"+enddate);
       postTask(task);
-      task.status = 10;
-      const taskElement =createTaskElement(task);
-      document.getElementById('todo').appendChild(taskElement);
-      attachDragAndDropListeners(taskElement);// Adicionar os listeners drag and drop à task criada de forma dinâmica
+
       
       
       // Limpar os input fields depois de adicionar a task
@@ -139,7 +135,9 @@ function createTask(name, description, priority,startdate,enddate) { // Cria uma
   return task;
 }
 async function postTask(task) {
-  await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/addtask', {
+
+    await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/addtask', {
+
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -147,9 +145,28 @@ async function postTask(task) {
       'password': sessionStorage.getItem('password')
     },
     body: JSON.stringify(task)
-  }).then(function(response){
+  }).then(async function(response){
     if (response.status === 200){
-      alert('Task added');
+      const taskData= await response.json();
+      console.log(" a task é esta "+taskData.id+" "+taskData.title+" "+taskData.description+" "+taskData.priority+" "+taskData.startDate+" "+taskData.endDate+" "+taskData.status);
+      task = {
+        id: taskData.id,
+        title: taskData.title,
+        description: taskData.description,
+        priority: taskData.priority,
+        startDate: taskData.startDate,
+        endDate: taskData.endDate,
+        status: taskData.status
+      }
+      const taskElement = createTaskElement(task);
+      if (task.status === 10) {
+        document.getElementById('todo').appendChild(taskElement);
+      } else if (task.status === 20) {
+        document.getElementById('doing').appendChild(taskElement);
+      }else if (task.status === 30) {
+        document.getElementById('done').appendChild(taskElement);
+      }
+      attachDragAndDropListeners(taskElement);
     }else if (response.status === 404){
       alert('User not found');
     }
@@ -195,19 +212,24 @@ function createTaskElement(task) {
     deleteButton.src = 'multimedia/dark-cross-01.png';
     deleteButton.className = 'apagarButton';
     deleteButton.addEventListener('click', function () {
-        const  deletemodal = document.getElementById('delete-modal');
-         deletemodal.style.display = "grid"; 
-        const deletebtn = document.getElementById('delete-button');
-        deletebtn.addEventListener('click', () => {
-            deleteTask(taskElement.id);
-            taskElement.remove();
-            deletemodal.style.display = "none";
-        });
-        const cancelbtn = document.getElementById('cancel-delete-button');
-        cancelbtn.addEventListener('click', () => {
-            deletemodal.style.display = "none";
-        });
-    });
+      const  deletemodal = document.getElementById('delete-modal');
+      deletemodal.style.display = "grid"; 
+      const deletebtn = document.getElementById('delete-button');
+      deletebtn.addEventListener('click', () => {
+          deleteTask(taskElement.id);
+          taskElement.remove();
+          deletemodal.style.display = "none";
+      });
+      deletebtn.removeEventListener('click', () => {
+          deleteTask(taskElement.id);
+          taskElement.remove();
+          deletemodal.style.display = "none";
+      });
+      const cancelbtn = document.getElementById('cancel-delete-button');
+      cancelbtn.addEventListener('click', () => {
+          deletemodal.style.display = "none";
+      });
+  });
     descriprioncontainer.appendChild(displayDescription);
     postIt.appendChild(taskTitle);
     postIt.appendChild(deleteButton);
@@ -230,7 +252,7 @@ function createTaskElement(task) {
 
 async function loadTasks() {
 
-     await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/tasks', {
+     await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/tasks', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -266,7 +288,7 @@ async function loadTasks() {
   
   async function deleteTask(id) {
     try {
-      const response = await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/removetask', {
+      const response = await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/removetask', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -314,7 +336,7 @@ async function loadTasks() {
     };
   
     try {
-      const response = await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/updatetask', {
+      const response = await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/updatetask', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -406,8 +428,7 @@ document.querySelector('.fa-regular').addEventListener('click', () => {
 });
 
 document.getElementById('logout').addEventListener('click', () => {
-  sessionStorage.clear();
-  window.location.href = 'index.html';
+  logout();
 });
 
 window.onclose = function () { // Guarda as tarefas na local storage quando a página é fechada
@@ -419,7 +440,7 @@ window.onclose = function () { // Guarda as tarefas na local storage quando a p�
 //fazer fetch ao ficheiro do backend
 async function getUserPhoto(){
   try {
-    const response = await fetch(`http://localhost:8080/my_scrum_backend_war_exploded/rest/user/${sessionStorage.getItem('username')}`);
+    const response = await fetch(`http://localhost:8080/lexsilva-pedromont-proj2/rest/user/${sessionStorage.getItem('username')}`);
     if (!response.ok) {
       throw new Error('Failed to fetch user data');
     }
@@ -435,4 +456,40 @@ async function getUserPhoto(){
     // Re-throw the error or return a rejected promise
     throw error;
   }
+}
+async function logout() {
+  await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/logout', {
+    method: 'GET',
+    headers: {
+      'Accept': '*/*',
+      'Content-Type': 'application/json',
+      username: sessionStorage.getItem('username'),
+      password: sessionStorage.getItem('password'),
+    }
+  }).then(function(response) {
+    if (response.status === 200) {
+      // User is logged in successfully
+      alert('User is logged out successfully :)');  
+     const tasks = document.querySelectorAll('.task');
+     if (tasks.length > 0) {
+        tasks.forEach(task => {
+          updateTask(task);
+        });
+      }
+      sessionStorage.clear();
+      window.location.href = 'index.html';
+    } else if (response.status === 404) {
+      sessionStorage.clear();
+      window.location.href = 'index.html';
+      // User not found
+      alert('User not found');
+    } else {
+      // Something went wrong
+      alert('Something went wrong :(');
+      sessionStorage.clear();
+      window.location.href = 'index.html';
+    }
+  });
+  sessionStorage.clear();
+  window.location.href = 'index.html';
 }
