@@ -1,12 +1,11 @@
-package dto;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
+package com.scrum;
+
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 
-@XmlRootElement
+
 public class User {
     String id;
     String username;
@@ -23,8 +22,8 @@ public class User {
     public User() {
     }
 
-    public User(String id, String username, String name, String email, String password, String contactNumber, String userPhoto) {
-        this.id = id;
+    public User( String username, String name, String email, String password, String contactNumber, String userPhoto) {
+
         this.username = username;
         this.name = name;
         this.email = email;
@@ -32,8 +31,18 @@ public class User {
         this.contactNumber = contactNumber;
         this.userPhoto = userPhoto;
     }
+    @Override
+    public String toString() {
+        return "{" +
+                "username:\"" + username + "\"" +
+                ", \"name\":\"" + name + "\"" +
+                ", \"email\":\"" + email + "\"" +
+                ", \"password\":\"" + password + "\"" +
+                ", \"contactNumber\":\"" + contactNumber + "\"" +
+                ", \"userPhoto\":\"" + userPhoto + "\"" +
+                '}';
+    }
 
-    @XmlElement
     public String getId() {
         return id;
     }
@@ -42,7 +51,7 @@ public class User {
         this.id = "user".concat(String.valueOf(Double.parseDouble(Math.floor(Math.random() * 1000) + "")));
     }
 
-    @XmlElement
+
     public String getName() {
         return name;
     }
@@ -51,7 +60,7 @@ public class User {
         this.name = name;
     }
 
-    @XmlElement
+
     public String getEmail() {
         return email;
     }
@@ -60,7 +69,7 @@ public class User {
         this.email = email;
     }
 
-    @XmlElement
+
     public String getPassword() {
         return password;
     }
@@ -69,7 +78,7 @@ public class User {
         this.password = password;
     }
 
-    @XmlElement
+
     public String getUsername() {
         return username;
     }
@@ -78,7 +87,7 @@ public class User {
         this.username = username;
     }
 
-    @XmlElement
+
     public String getContactNumber() {
         return contactNumber;
     }
@@ -88,11 +97,11 @@ public class User {
     public void setUserPhoto(String userPhoto){
         this.userPhoto = userPhoto;
     }
-    @XmlElement
+
     public String getUserPhoto(){
         return userPhoto;
     }
-    @XmlElement
+
     public ArrayList<Task> getTasks() {
         return tasks;
     }
