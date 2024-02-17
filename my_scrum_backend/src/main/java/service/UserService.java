@@ -1,4 +1,5 @@
 package service;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -64,11 +65,6 @@ public class UserService {
     public Response addTaskToUser(@HeaderParam("username") String username,@HeaderParam("password") String password, Task task) {
         boolean user = userBean.userExists(username);
         boolean authorized = userBean.isUserAuthorized(username, password);
-        System.out.println(task.getStartDate());
-        System.out.println(task.getEndDate());
-        System.out.println(task.getPriority());
-        System.out.println(task.getTitle());
-        System.out.println(task.getDescription());
         if (!user) {
             System.out.println("user not found");
             return Response.status(404).entity("User with this username is not found").build();
@@ -76,10 +72,13 @@ public class UserService {
             System.out.println("unauthorized");
             return Response.status(405).entity("Forbidden").build();
         }else {
+            if(task.getEndDate()==null){
+                LocalDate undifined = LocalDate.of(2199, 12, 31);
+                task.setEndDate(undifined);
+            }
             task.generateId();task.setinitialStatus();
             userBean.addTaskToUser(username, task);
             User user1 = userBean.getUser(username);
-            System.out.println("task"+task.getTitle()+" "+task.getStatus()+" "+task.getPriority()+" "+task.getId());
             return Response.status(200).entity(user1.getTaskbyId(task.getId())).build();
         }
     }
@@ -104,8 +103,7 @@ public class UserService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateTask(@HeaderParam("username") String username, @HeaderParam("password") String password, Task a) {
-        boolean authorized = userBean.isUserAuthorized(username, password);
-        System.out.println(a.getTitle()+" "+a.getStartDate()+" "+a.getEndDate()+" "+a.getPriority()+" "+a.getStatus());
+        boolean authorized = userBean.isUserAuthorized(username, password);;
         boolean isvalid = userBean.isTaskValid(a);
          if (!authorized) {
             return Response.status(405).entity("Forbidden").build();

@@ -210,19 +210,24 @@ function createTaskElement(task) {
     deleteButton.src = 'multimedia/dark-cross-01.png';
     deleteButton.className = 'apagarButton';
     deleteButton.addEventListener('click', function () {
-        const  deletemodal = document.getElementById('delete-modal');
-         deletemodal.style.display = "grid"; 
-        const deletebtn = document.getElementById('delete-button');
-        deletebtn.addEventListener('click', () => {
-            deleteTask(taskElement.id);
-            taskElement.remove();
-            deletemodal.style.display = "none";
-        });
-        const cancelbtn = document.getElementById('cancel-delete-button');
-        cancelbtn.addEventListener('click', () => {
-            deletemodal.style.display = "none";
-        });
-    });
+      const  deletemodal = document.getElementById('delete-modal');
+      deletemodal.style.display = "grid"; 
+      const deletebtn = document.getElementById('delete-button');
+      deletebtn.addEventListener('click', () => {
+          deleteTask(taskElement.id);
+          taskElement.remove();
+          deletemodal.style.display = "none";
+      });
+      deletebtn.removeEventListener('click', () => {
+          deleteTask(taskElement.id);
+          taskElement.remove();
+          deletemodal.style.display = "none";
+      });
+      const cancelbtn = document.getElementById('cancel-delete-button');
+      cancelbtn.addEventListener('click', () => {
+          deletemodal.style.display = "none";
+      });
+  });
     descriprioncontainer.appendChild(displayDescription);
     postIt.appendChild(taskTitle);
     postIt.appendChild(deleteButton);
