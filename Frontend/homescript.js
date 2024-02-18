@@ -9,7 +9,7 @@ window.onload = async function () {
     document.getElementById('profileImageHome').src = await getUserPhoto();
     let user = await getUserData();    
     let names = user.name.split(" ");
-    document.getElementById('login').textContent = names[0];
+    document.getElementById('login-home').textContent = names[0];
   };
 
 
@@ -428,7 +428,7 @@ function updateDate() { // Mostra a data atual
     
 
 
-document.querySelector('.fa-regular').addEventListener('click', () => {
+document.getElementById('login-home').addEventListener('click', () => {
   window.location.href = 'profileEdition.html';
 });
 
@@ -496,11 +496,11 @@ async function logout() {
       }
       sessionStorage.clear();
       window.location.href = 'index.html';
-    } else if (response.status === 404) {
+    } else if (response.status === 405) {
       sessionStorage.clear();
       window.location.href = 'index.html';
       // User not found
-      alert('User not found');
+      alert('Unauthorized User');
     } else {
       // Something went wrong
       alert('Something went wrong :(');

@@ -80,14 +80,22 @@ body {
 #password {
   margin-bottom: 15px;
   padding-left: 5px;
-  width: 220px;
+  width: 150px;
   height: 25px;
   border: var(--green3) 1px solid;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
+  text-align: center;
+  
 }
 #login {
   margin-top: 20px;
+}
+#login-home{
+margin-right: 5px;
+display: inline;
+font-size: large;
+
 }
 .loginpanel ::placeholder {
   color: var(--green2);
@@ -190,6 +198,10 @@ h1 {
 /* Username */
 .username {
   color: var(--green1);
+  display: flex;
+  align-items: center; /* Align children vertically */
+  justify-content: center; /* Center children horizontally */
+  
 }
 .username input {
   padding: 5px;
@@ -1051,8 +1063,15 @@ footer {
   position:relative;
   top:-18px;
   left:92px;
-}
 
+}
+.fa-regular:hover{
+  color: var(--green3);
+  border: var(--green1)solid;
+  size: 1.5;
+  transition: 0.3s ease;
+  visibility: visible;
+}
 
 
 
@@ -1141,9 +1160,8 @@ border-top-right-radius: 5px;
 #profileImageHome{
   width: 50px;
   height: 50px;
-  border-radius: 48%;
-  position:relative;
-  left:50px;
+  border-radius: 50%;
+margin-right: 10px;
 }
 #btnToEdit{
   position:relative;
