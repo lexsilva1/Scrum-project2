@@ -63,10 +63,12 @@ window.onload = async function(){
             }
         confirmationDialog.close();
         console.log(user);
-        sessionStorage.setItem('password', user.password);
-
         updateUserData(user);
-        window.location.href = 'home.html'
+        sessionStorage.setItem('password', user.password);
+        console.log('password',sessionStorage.getItem('password'));
+
+        
+       window.location.href = 'home.html'
     })
     document.getElementById('declineChangesButton').addEventListener('click',()=>{
         confirmationDialog.close();
@@ -91,6 +93,8 @@ async function getUserData(){
 
 
 async function updateUserData(user){//chama o user aqui
+        console.log('log1',user.password);
+        console.log('log2',sessionStorage.getItem('password'));
     try{
     await fetch(`http://localhost:8080/my_scrum_backend_war_exploded/rest/user/update`,{
         method: 'PUT',
