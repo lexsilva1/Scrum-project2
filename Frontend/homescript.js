@@ -320,8 +320,6 @@ async function loadTasks() {
     }
   }
   async function updateTask(taskElement) {
-    console.log(taskElement.startDate);
-    console.log(taskElement.endDate);
    let taskElementstatus;
     if(taskElement.status === "todo"){
       taskElementstatus = 10
