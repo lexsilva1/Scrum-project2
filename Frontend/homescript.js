@@ -1,8 +1,4 @@
 window.onload = async function () {
-   /* var username = sessionStorage.getItem("username");
-    if (username) {
-      document.getElementById("login").textContent = username;
-    }*/
     loadTasks();
     updateDate();
     showTime();
@@ -11,8 +7,6 @@ window.onload = async function () {
     let names = user.name.split(" ");
     document.getElementById('login-home').textContent = names[0];
   };
-
-
 
   if(sessionStorage.getItem('username') === null || sessionStorage.getItem('username') === ''){
     window.location.href = 'index.html';
@@ -24,7 +18,6 @@ function attachDragAndDropListeners(task) { // Adiciona os listeners de drag and
   task.addEventListener('dragstart', () => {
       task.classList.add('dragging')
   });
-
   task.addEventListener('dragend', () => {
       task.classList.remove('dragging')
       updateTask(task);
@@ -39,7 +32,6 @@ panels.forEach(panel => {
     const panelID = document.getElementById(panel.id) // Guarda o ID do painel onde a tarefa vai ser colocada
     if (afterElement == null) {
       panel.appendChild(task)
-      console.log(task.status);
       task.status = panel.id;
       for (var i = 0; i < tasks.length; i++) { // Percorre o array de tarefas e altera o status da tarefa para o painel onde foi colocada
         if (tasks[i].id == task.id) {
@@ -115,9 +107,6 @@ document.getElementById('addTask').addEventListener('click', function() {
   if (Name.trim() !== '' && Description.trim() !== '' && priority !== null && startdate !== '' && enddate !== '' && startdate <= enddate){
       const task = createTask(Name, Description, priority,startdate,enddate);
       postTask(task);
-
-      
-      
       // Limpar os input fields depois de adicionar a task
       document.getElementById('taskName').value = '';
       document.getElementById('taskDescription').value = '';
@@ -125,7 +114,6 @@ document.getElementById('addTask').addEventListener('click', function() {
       document.getElementById('enddate').value = '';
       removeSelectedPriorityButton();
       taskPriority = null;
-
   }
 });
 
@@ -140,9 +128,7 @@ function createTask(name, description, priority,startdate,enddate) { // Cria uma
   return task;
 }
 async function postTask(task) {
-
     await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/addtask', {
-
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -153,7 +139,6 @@ async function postTask(task) {
   }).then(async function(response){
     if (response.status === 200){
       const taskData= await response.json();
-      console.log(" a task é esta "+taskData.id+" "+taskData.title+" "+taskData.description+" "+taskData.priority+" "+taskData.startDate+" "+taskData.endDate+" "+taskData.status);
       task = {
         id: taskData.id,
         title: taskData.title,
@@ -250,8 +235,6 @@ function createTaskElement(task) {
         sessionStorage.setItem("taskEndDate", task.endDate);
         window.location.href = 'task.html';
     });
-    console.log(taskElement);
-
     return taskElement;
 }
 
@@ -289,8 +272,6 @@ async function loadTasks() {
       }
     });
   }
-
-  
   async function deleteTask(id) {
     try {
       const response = await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/removetask', {
@@ -364,28 +345,18 @@ async function loadTasks() {
       // Handle fetch errors
       alert('Error updating task. Please try again.');
     }
-
-
   }
-
-  
-
  // Elemento html onde vai ser mostrada a hora
 const displayTime = document.querySelector(".display-time");
-
 function showTime() {
   let time = new Date();
   let timeString = time.toLocaleTimeString("en-US", { hour12: false, hour: '2-digit', minute: '2-digit' });
   displayTime.innerText = timeString;
   setTimeout(showTime, 1000);
 }
-
-
-
 // Data
 function updateDate() { // Mostra a data atual
   let today = new Date();
-
   let dayName = today.getDay(), // 0 - 6
     dayNum = today.getDate(), // 1 - 31
     month = today.getMonth(), // 0 - 11
@@ -422,9 +393,6 @@ function updateDate() { // Mostra a data atual
     document.getElementById(IDCollection[i]).firstChild.nodeValue = val[i]; // Altera o valor do elemento html com o ID correspondente
   }
 }
-
-    
-
 
 document.getElementById('login-home').addEventListener('click', () => {
   window.location.href = 'profileEdition.html';

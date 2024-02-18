@@ -10,7 +10,6 @@ window.onload = async function(){
     document.getElementById('photoUpload').placeholder = user.userPhoto;
     document.getElementById('editUserEmail').placeholder = user.email;
     document.getElementById('editUserContact').placeholder= user.contactNumber;
-    document.getElementById('oldPassword').placeholder = user.password;
     document.getElementById('username').placeholder = user.username;
 
     document.getElementById('buttonSubmitData').addEventListener('click',()=>{
@@ -62,20 +61,14 @@ window.onload = async function(){
             userPhoto : document.getElementById("profileImage").src = document.getElementById('photoUpload').value.trim(),
             }
         confirmationDialog.close();
-        console.log(user);
         updateUserData(user);
         sessionStorage.setItem('password', user.password);
-        console.log('password',sessionStorage.getItem('password'));
-
-        
-       window.location.href = 'home.html'
+        window.location.href = 'home.html'
     })
     document.getElementById('declineChangesButton').addEventListener('click',()=>{
         confirmationDialog.close();
     })
 }
-
-
 
 async function getUserData(){
     try{
@@ -93,8 +86,6 @@ async function getUserData(){
 
 
 async function updateUserData(user){//chama o user aqui
-        console.log('log1',user.password);
-        console.log('log2',sessionStorage.getItem('password'));
     try{
     await fetch(`http://localhost:8080/lexsilva-pedromont-proj2/rest/user/update`,{
         method: 'PUT',
@@ -106,23 +97,20 @@ async function updateUserData(user){//chama o user aqui
         },
         body:JSON.stringify(user),
     }).then(function(response){
-        console.log(response.status);
         if (response.status ==404){
-            console.log('username not found')
+            alert(response.status, 'username not found')
         } else if(response.status == 405){
-            console.log('forbidden due to header params')
+            alert(response.status,'forbidden due to header params')
         } else if(response.status == 400){
-            console.log('failed, user not updated')
+            alert(response.status,'failed, user not updated')
         } else if(response.status == 200){
             sessionStorage.setItem('password',user.password);
-            console.log('user updated sucessfully')
+            alert(response.status,'user updated sucessfully')
         }
     })
     } catch(error){
         console.error('error',error);
     }
-
-
 }
 async function getUserPhoto(){
     try {
@@ -130,10 +118,7 @@ async function getUserPhoto(){
       if (!response.ok) {
         throw new Error('Failed to fetch user data');
       }
-      
       const obj = await response.json();
-      console.log(obj);
-      console.log(obj.userPhoto);
       sessionStorage.setItem('photo', obj.userPhoto);
       return obj.userPhoto;
       

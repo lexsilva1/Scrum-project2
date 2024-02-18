@@ -31,7 +31,6 @@ async function login(loginValue, passwordValue) {
         }).then(async function(response) {
             if (response.status === 200) {
                 // User is logged in successfully
-                alert('User is logged in successfully :)');
                 const userData = await response.json();
                 
                 // Store user data in sessionStorage
