@@ -44,7 +44,6 @@ public class UserService {
     @Path("/tasks")
     @Produces(MediaType.APPLICATION_JSON)
        public Response isUserValid(@HeaderParam("username") String username, @HeaderParam("password") String password) {
-        System.out.println(username+" "+password);
               boolean user = userBean.userExists(username);
               boolean authorized = userBean.isUserAuthorized(username, password);
                 if (!user) {
