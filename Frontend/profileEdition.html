@@ -8,35 +8,50 @@
 </head>
 <body>
     <header>
-    <!--header é o mesmo que o da página principal-->
+        <h1>Welcome to Scrum</h1>
+        <div class="username">
+            <label>Hi </label>
+            <label id="login"> </label>
+        </div>
+        <div class="profileImageHome">
+            <img id="profileImageHome" src ="" alt="Avatar">
+        </div>
+        <button class="logout-button" onclick="location.href='index.html'">
+            <img src="multimedia/logout.png" alt="Logout Icon">
+            Logout
+        </button>
     </header>
     <section id ="editSection">
         <div id = "profilePicEdit">
             <img id="profileImage" alt="Avatar">
         </div>
         <div>
-            <input id="photoUpload" type="text" name ="profilePhoto" placeholder="photo" required ="" capture>
-        </div>    
+            <input class="input-edit-profile" id="photoUpload" type="text" name ="profilePhoto" placeholder="photo" required ="" capture>
+        </div>
         
         <!-- aqui À frente ficar os outros detalhes do header-->
         <div id ="editUserValues">
-            <label>First name</label>
-            <input id = "editFirstName" type="text" placeholder ="First name">
-            <label>Last name</label>
-            <input id = "editLastName" type="text" placeholder ="Last name">
-            <label>Username</label>
-            <input  id = "username"type="text" placeholder ="Username" disabled>
-            <label>email</label>
-            <input id = editUserEmail type = "text" placeholder ="">
-            <label>contact</label>
-            <input id ="editUserContact" type="text" placeholder="">
-            <label>Old password</label>
-            <input id = "oldPassword" type="password" placeholder ="Old password">
+            <div id="left-edit-profile">
+            <label class="labels-edit-profile">First name</label>
+            <input class="input-edit-profile" id = "editFirstName" type="text" placeholder ="First name">
+            <label class="labels-edit-profile">Last name</label>
+            <input class="input-edit-profile" id = "editLastName" type="text" placeholder ="Last name">
+            <label class="labels-edit-profile">Username</label>
+            <input class="input-edit-profile" id = "username"type="text" placeholder ="Username" disabled>
+            <label class="labels-edit-profile">email</label>
+            <input class="input-edit-profile" id = editUserEmail type = "text" placeholder ="">
+            </div>
+            <div id="right-edit-profile">
+            <label class="labels-edit-profile">contact</label>
+            <input class="input-edit-profile" id ="editUserContact" type="text" placeholder="">
+            <label class="labels-edit-profile">Old password</label>
+            <input class="input-edit-profile" id = "oldPassword" type="password" placeholder ="Old password">
             <!--botões para ver password-->
-            <label>New password</label>
-            <input id ="editNewPassword" type="password" placeholder ="New password">
-            <label>Rewrite new password</label>
-            <input id= "rewritePasswordField" type="password" placeholder ="Rewrite new Password">
+            <label class="labels-edit-profile">New password</label>
+            <input class="input-edit-profile" id ="editNewPassword" type="password" placeholder ="New password">
+            <label class="labels-edit-profile">Rewrite new password</label>
+            <input class="input-edit-profile" id= "rewritePasswordField" type="password" placeholder ="Rewrite new Password">
+            </div>
         </div>
         <div id ="btnEditprofile">
             <button id = "buttonSubmitData" type="button">submit</button>

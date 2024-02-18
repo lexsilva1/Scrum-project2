@@ -1,12 +1,15 @@
 window.onload = async function () {
-    var username = sessionStorage.getItem("username");
+   /* var username = sessionStorage.getItem("username");
     if (username) {
       document.getElementById("login").textContent = username;
-    }
+    }*/
     loadTasks();
     updateDate();
     showTime();
     document.getElementById('profileImageHome').src = await getUserPhoto();
+    let user = await getUserData();    
+    let names = user.name.split(" ");
+    document.getElementById('login').textContent = names[0];
   };
 
 
@@ -104,6 +107,8 @@ document.getElementById('addTask').addEventListener('click', function() {
     document.getElementById('warningMessage2').innerText = 'Fill in all fields and define a priority';
   } else if (startdate > enddate) {
     document.getElementById('warningMessage2').innerText = 'Start date must be before end date';
+  }else if(taskName.value.length > 20){
+      document.getElementById('warningMessage2').innerText = 'Task title must be less than 20 characters';
   } else {
     document.getElementById('warningMessage2').innerText = '';
   }
@@ -252,7 +257,7 @@ function createTaskElement(task) {
 
 async function loadTasks() {
 
-     await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/tasks', {
+     await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/tasks', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -288,7 +293,7 @@ async function loadTasks() {
   
   async function deleteTask(id) {
     try {
-      const response = await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/removetask', {
+      const response = await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/removetask', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -336,7 +341,7 @@ async function loadTasks() {
     };
   
     try {
-      const response = await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/updatetask', {
+      const response = await fetch('http://localhost:8080/my_scrum_backend_war_exploded/rest/user/updatetask', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -440,7 +445,7 @@ window.onclose = function () { // Guarda as tarefas na local storage quando a p√
 //fazer fetch ao ficheiro do backend
 async function getUserPhoto(){
   try {
-    const response = await fetch(`http://localhost:8080/lexsilva-pedromont-proj2/rest/user/${sessionStorage.getItem('username')}`);
+    const response = await fetch(`http://localhost:8080/my_scrum_backend_war_exploded/rest/user/${sessionStorage.getItem('username')}`);
     if (!response.ok) {
       throw new Error('Failed to fetch user data');
     }
@@ -455,6 +460,19 @@ async function getUserPhoto(){
     console.error('Something went wrong:', error);
     // Re-throw the error or return a rejected promise
     throw error;
+  }
+}
+async function getUserData(){
+  try{
+      const response = await fetch(`http://localhost:8080/my_scrum_backend_war_exploded/rest/user/${sessionStorage.getItem('username')}`);
+      if (!response.ok){
+      throw new Error ('failed to fetch user data');
+      }
+      const obj = await response.json();
+      return obj;
+  } catch (error){
+      console.error('something went wrong', error);
+      throw error;
   }
 }
 async function logout() {

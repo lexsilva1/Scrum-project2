@@ -1,4 +1,9 @@
-window.onload = function () {
+
+window.onload =async function () {
+    document.getElementById('profileImageHome').src = await getUserPhoto();
+    let user = await getUserData();    
+    let names = user.name.split(" ");
+    document.getElementById('login').textContent = names[0];
     let username = sessionStorage.getItem("username"); // Obter o user da session storage
     let descricao = sessionStorage.getItem("taskDescription"); // Obter a descrição da session storage
     let titulo = sessionStorage.getItem("taskTitle"); // Obter o título da session storage
@@ -6,7 +11,6 @@ window.onload = function () {
     let startdate = sessionStorage.getItem("taskStartDate"); // Obter a data de início da session storage
     let enddate = sessionStorage.getItem("taskEndDate"); // Obter a data de fim da session storage
     if (username) {
-        document.getElementById("login").textContent = username; // Colocar o user no header
         document.getElementById('titulo-task').textContent = titulo; // Colocar o título no input title
         document.getElementById('descricao-task').textContent = descricao; // Colocar a descrição na text area
         document.getElementById('tasktitle').innerHTML = titulo; // Colocar o título no título da página
@@ -180,3 +184,35 @@ savebutton.addEventListener("click", () => {
     window.location.href = 'home.html';
     }
 });
+async function getUserPhoto(){
+    try {
+      const response = await fetch(`http://localhost:8080/my_scrum_backend_war_exploded/rest/user/${sessionStorage.getItem('username')}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch user data');
+      }
+      
+      const obj = await response.json();
+      console.log(obj);
+      console.log(obj.userPhoto);
+      sessionStorage.setItem('photo', obj.userPhoto);
+      return obj.userPhoto;
+      
+    } catch (error) {
+      console.error('Something went wrong:', error);
+      // Re-throw the error or return a rejected promise
+      throw error;
+    }
+  }
+  async function getUserData(){
+    try{
+        const response = await fetch(`http://localhost:8080/my_scrum_backend_war_exploded/rest/user/${sessionStorage.getItem('username')}`);
+        if (!response.ok){
+        throw new Error ('failed to fetch user data');
+        }
+        const obj = await response.json();
+        return obj;
+    } catch (error){
+        console.error('something went wrong', error);
+        throw error;
+    }
+  }

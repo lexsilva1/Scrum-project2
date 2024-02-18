@@ -1,7 +1,9 @@
 window.onload = async function(){
-    const confirmationDialog = document.getElementById('confirmChanges');
+    document.getElementById('profileImageHome').src = await getUserPhoto();
     let user = await getUserData();    
     let names = user.name.split(" ");
+    document.getElementById('login').textContent = names[0];
+    const confirmationDialog = document.getElementById('confirmChanges');
     document.getElementById('editFirstName').placeholder = names[0];
     document.getElementById('editLastName').placeholder = names[1];
     document.getElementById('profileImage').src = user.userPhoto;
@@ -118,6 +120,25 @@ async function updateUserData(user){//chama o user aqui
 
 
 }
+async function getUserPhoto(){
+    try {
+      const response = await fetch(`http://localhost:8080/my_scrum_backend_war_exploded/rest/user/${sessionStorage.getItem('username')}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch user data');
+      }
+      
+      const obj = await response.json();
+      console.log(obj);
+      console.log(obj.userPhoto);
+      sessionStorage.setItem('photo', obj.userPhoto);
+      return obj.userPhoto;
+      
+    } catch (error) {
+      console.error('Something went wrong:', error);
+      // Re-throw the error or return a rejected promise
+      throw error;
+    }
+  }
 //abrir modal para confirmar alterações 
 document.getElementById('buttonCancelEdition').addEventListener('click',()=>{
     window.location.href='home.html';

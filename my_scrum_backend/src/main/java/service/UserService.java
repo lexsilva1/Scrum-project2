@@ -36,7 +36,7 @@ public class UserService {
             return Response.status(409).entity("User with this username is already exists").build();
         } else {
             userBean.addUser(a);
-            return Response.status(200).entity("A new user is created").build();
+            return Response.status(201).entity("A new user is created").build();
         }
     }
 
@@ -70,7 +70,7 @@ public class UserService {
             return Response.status(404).entity("User with this username is not found").build();
         }else if (!authorized) {
             System.out.println("unauthorized");
-            return Response.status(405).entity("Forbidden").build();
+            return Response.status(403).entity("Forbidden").build();
         }else {
             if(task.getEndDate()==null){
                 LocalDate undifined = LocalDate.of(2199, 12, 31);
@@ -79,7 +79,7 @@ public class UserService {
             task.generateId();task.setinitialStatus();
             userBean.addTaskToUser(username, task);
             User user1 = userBean.getUser(username);
-            return Response.status(200).entity(user1.getTaskbyId(task.getId())).build();
+            return Response.status(201).entity(user1.getTaskbyId(task.getId())).build();
         }
     }
 
@@ -93,7 +93,7 @@ public class UserService {
         if (!user) {
             return Response.status(404).entity("User with this username is not found").build();
         }else if (!authorized) {
-            return Response.status(405).entity("Forbidden").build();
+            return Response.status(403).entity("Forbidden").build();
         }
         userBean.removeTaskFromUser(username, id);
         return Response.status(200).entity("task Deleted").build();
@@ -106,7 +106,7 @@ public class UserService {
         boolean authorized = userBean.isUserAuthorized(username, password);;
         boolean isvalid = userBean.isTaskValid(a);
          if (!authorized) {
-            return Response.status(405).entity("Forbidden").build();
+            return Response.status(403).entity("Forbidden").build();
         }else if (!isvalid) {
             return Response.status(400).entity("All elements are required").build();
         }
@@ -125,7 +125,7 @@ public class UserService {
         if (!user) {
             return Response.status(404).entity("User with this username is not found").build();
         }else if (!authorized) {
-            return Response.status(405).entity("Forbidden").build();
+            return Response.status(403).entity("Forbidden").build();
         }
         User user1 = userBean.getUser(username);
         if(user1.getUserPhoto() == null){
@@ -159,8 +159,6 @@ public class UserService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateUser(@HeaderParam("username") String username, @HeaderParam("password") String password, User a) {
-        System.out.println(a.getName()+" "+a.getEmail()+" "+a.getContactNumber()+" "+a.getUserPhoto());
-        System.out.println(a.getUsername()+" "+password);
         boolean user = userBean.userExists(username);
         boolean authorized = userBean.isUserAuthorized(username, password);
         boolean valid = userBean.isUserValid(a);
@@ -169,7 +167,7 @@ public class UserService {
         }else if (!authorized) {
             return Response.status(405).entity("Forbidden").build();
         }else if (!valid) {
-            return Response.status(400).entity("All elements are required").build();
+            return Response.status(401).entity("All elements are required").build();
         }
         boolean updated = userBean.updateUser(username, a);
         if (!updated)
