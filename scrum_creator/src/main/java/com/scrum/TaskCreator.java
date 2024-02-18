@@ -124,7 +124,7 @@ public class TaskCreator {
             int responseCode = connection.getResponseCode();
             BufferedReader reader;
 
-            if (responseCode == HttpURLConnection.HTTP_OK) {
+            if (responseCode == HttpURLConnection.HTTP_CREATED) {
 
                 reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 System.out.println("Task added successfully: " + task + " for " + username);
