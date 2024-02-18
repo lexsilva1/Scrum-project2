@@ -65,6 +65,12 @@ public class UserService {
     public Response addTaskToUser(@HeaderParam("username") String username,@HeaderParam("password") String password, Task task) {
         boolean user = userBean.userExists(username);
         boolean authorized = userBean.isUserAuthorized(username, password);
+        System.out.println("endDate"+task.getEndDate());
+        if(task.getEndDate()==null){
+            LocalDate undifined = LocalDate.of(2199, 12, 31);
+            task.setEndDate(undifined);
+        }
+        System.out.println("endDate nova "+task.getEndDate());
         if (!user) {
             System.out.println("user not found");
             return Response.status(404).entity("User with this username is not found").build();
@@ -72,10 +78,6 @@ public class UserService {
             System.out.println("unauthorized");
             return Response.status(403).entity("Forbidden").build();
         }else {
-            if(task.getEndDate()==null){
-                LocalDate undifined = LocalDate.of(2199, 12, 31);
-                task.setEndDate(undifined);
-            }
             task.generateId();task.setinitialStatus();
             userBean.addTaskToUser(username, task);
             User user1 = userBean.getUser(username);
@@ -103,6 +105,10 @@ public class UserService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateTask(@HeaderParam("username") String username, @HeaderParam("password") String password, Task a) {
+        if(a.getEndDate()==null){
+            LocalDate undifined = LocalDate.of(2199, 12, 31);
+            a.setEndDate(undifined);
+        }
         boolean authorized = userBean.isUserAuthorized(username, password);;
         boolean isvalid = userBean.isTaskValid(a);
          if (!authorized) {
