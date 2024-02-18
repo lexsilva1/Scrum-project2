@@ -65,12 +65,10 @@ public class UserService {
     public Response addTaskToUser(@HeaderParam("username") String username,@HeaderParam("password") String password, Task task) {
         boolean user = userBean.userExists(username);
         boolean authorized = userBean.isUserAuthorized(username, password);
-        System.out.println("endDate"+task.getEndDate());
         if(task.getEndDate()==null){
             LocalDate undifined = LocalDate.of(2199, 12, 31);
             task.setEndDate(undifined);
         }
-        System.out.println("endDate nova "+task.getEndDate());
         if (!user) {
             System.out.println("user not found");
             return Response.status(404).entity("User with this username is not found").build();
