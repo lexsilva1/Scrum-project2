@@ -1099,7 +1099,7 @@ footer {
   position:relative;
   height: 25rem;
   top:1.25rem;
-  left:-48.5rem;
+  left:-47.5rem;
   font-size: large;
 
 }
@@ -1124,7 +1124,7 @@ border-top-right-radius: 5px;
 }
 #photoUpload{
   position:relative;
-  left: -8rem;
+  left: -7rem;
   top:15.625rem;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -1132,7 +1132,8 @@ border-top-right-radius: 5px;
 #btnEditprofile{
   position:relative;
   top:18.75rem;
-  left:-56.372rem;
+  left:-52.372rem;
+  height: fit-content;
 }
 #btnEditprofile button:hover{
   background-color: var(--green3);
