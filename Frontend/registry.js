@@ -4,6 +4,13 @@
 document.addEventListener('DOMContentLoaded',()=>{ 
 document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
     e.preventDefault();
+    let userImage = document.getElementById("userPhotoUrl");
+    if (document.getElementById("userPhotoUrl").value.trim() === ''){
+        userImage.value = 'https://media.istockphoto.com/id/1300845620/pt/vetorial/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=7TO9d1_F-zi74bCZGEUzpa-nXT1JbcVglYMk_4MSwdg=';
+    } else{
+        userImage.value = document.getElementById("userPhotoUrl").value.trim();
+    }
+    console.log(userImage);
     if (document.getElementById('userPassword').value.trim() != document.getElementById('userRewrittenPassword').value.trim()){
         alert('Passwords do not match');
     } else {
@@ -14,34 +21,23 @@ document.getElementById('submitRegistryButton').addEventListener('click',(e)=>{
         email : document.getElementById('userEmail').value.trim(),
         password : document.getElementById('userPassword').value.trim(),
         contactNumber : document.getElementById('userNumber').value.trim(),
-        userPhoto : document.getElementById("userPhotoUrl").value.trim()
+        userPhoto : userImage.value.trim()
         }
-        
-        console.log(JSON.stringify(newUser));
-        console.log(newUser);
-        postUser(newUser);
-        window.location.href='index.html';
-
         //verificação frontend de credenciais
         const emptyFields = [];
         for (const [key,value] of Object.entries(newUser)){
-            if (value.trim()===''){
+            if (key !== 'userPhoto' && value.trim()===''){
                 emptyFields.push(key);
             }
         }
-        emptyFields.forEach(field =>{
-            console.log('Field ' + field + ' needs to be filled'); 
-            /*
-            const messageBox = document.createElement('div');
-            const message = document.createElement('span');
-            messageBox.appendChild(message);
-            message.textContent = 'Please fill this field';
-            message.style.color = 'wheat';*/
-        })      
         //password checks with rewritten password 
         const passwordCheck = newUser.password === document.getElementById('userRewrittenPassword').value;
-        if (passwordCheck){
-            console.log("password checks out");
+        if (emptyFields.length === 0 && passwordCheck){
+            alert('user can be created');
+            postUser(newUser);
+            window.location.href='index.html';
+        } else {
+            alert('please fill empty fields');
         }   
 }
 })
@@ -74,12 +70,6 @@ catch (error) {
 document.getElementById('cancelRegistryButton').addEventListener('click',()=>{
     window.location.href='index.html'
 })
-//função para transformar a password em texto
-document.addEventListener('click', (e)=>{
-    if (e.target.matches('.fa-regular')){
-        const seePassword = document.querySelectorAll('input[type="password"]');
-        seePassword.type = 'text';
-        alert("clicking eye")
-    }
-  })
+
+
 

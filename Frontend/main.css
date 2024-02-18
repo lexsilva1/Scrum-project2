@@ -357,7 +357,7 @@ aside h3 {
 /* Botão add task */
 #addTask {
   text-align: center;
-  margin-top: 25px;
+  margin-top: 26px;
   width: 120px;
   height: 32px;
   text-transform: uppercase;
@@ -734,7 +734,7 @@ match ao arredondamento do painel (home.html) */
   height: fit-content;
   width: fit-content;
   align-self: center;
-  margin-top:1.5px;
+  margin-top:23.5px;
   
 .dateinput{
   margin: 5px;
@@ -959,7 +959,7 @@ footer {
 /*---------------------PAGINA REGISTO (PEDRO)---------------------------------*/
 #registrySection{
   display: flex;
-  margin:5px;
+  margin: .3125rem;
   color:black;
   color: var(--green3);
   background-color: color-mix(in srgb, var(--light-grey), transparent 10%);
@@ -967,18 +967,18 @@ footer {
 }
 #registryValues input{
   position: relative;
-  top:75px;
-  left:249px;
+  top: 4.6875rem;
+  left: 15.5625rem;
 
 }
 
 #profilePicDiv{
-  left:250px;
+  left: 15.625rem;
   position:relative;
-  width:200px;
-  height: 200px; 
+  width: 12.5rem;
+  height: 12.5rem; 
   overflow: hidden;
-  top:70px;
+  top: 4.375rem;
   
 }
 #profilePicDiv input{
@@ -989,20 +989,20 @@ footer {
   display: flex;
   flex-direction: column;
   height: fit-content;
-  width: 250px;
+  width: 15.625rem;
   position:relative;
-  top:10px;
-  left: 490px;
-  bottom:50px;
-  margin: 5px;
+  top: .625rem;
+  left: 30.625rem;
+  bottom: 3.125rem;
+  margin: .3125rem;
   text-align: center;
 }
 .inputs input{
-  margin:4.5px;
+  margin: .2813rem;
 }
 #profileImage{
   width:100%;
-  height:200px; 
+  height: 12.5rem; 
   object-fit: cover;
   align-self: center;
   border-radius: 50%;
@@ -1012,7 +1012,7 @@ footer {
   align-self: self-end;
   height: fit-content;
   width: fit-content;
-  left:350px;
+  left: 21.875rem;
   display:flex;
   flex-direction: column;
   
@@ -1022,7 +1022,7 @@ footer {
   font-size: larger;
   position: relative;
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: .75rem;
   font-weight: bold;
   background-color: var(--doing);
   color: var(--green3);
@@ -1031,7 +1031,7 @@ footer {
   cursor: pointer;
   height: 3.125rem;
   width: 5rem;
-  right:55px;
+  right: 3.4375rem;
   
 }
 #registryButtons button:hover{
@@ -1041,7 +1041,7 @@ footer {
 #passwordDiv{
   display: flex;
   position: relative;
-  left:180px;
+  left: 11.25rem;
   align-self: self-end; 
   align-items: center;
   align-content: center;
@@ -1055,14 +1055,14 @@ footer {
   margin:.3125rem;
   display: flex;
   flex-direction: column;
-  margin-right: 30px;
-  border:150px;
+  margin-right: 1.875rem;
+  border: 9.375rem;
 }
 
 .fa-regular{
   position:relative;
-  top:-18px;
-  left:92px;
+  top: -1.125rem;
+  left: 5.75rem;
 
 }
 .fa-regular:hover{
@@ -1079,9 +1079,9 @@ footer {
 
 /*----------------------------PAGINA DE EDIÇÃO----------------------*/
 #confirmChanges{
-  top:150px;
-  height: 150px;
-  width: 250px;
+  top: 9.375rem;
+  height: 9.375rem;
+  width: 15.625rem;
   position: absolute;
   z-index: 1;
 }
@@ -1089,7 +1089,7 @@ footer {
   display:flex;
   text-align: center;
   justify-content: space-around;
-  height: 520px;
+  height: 32.5rem;
 }
 #editUserValues{
   display: flex;
@@ -1099,12 +1099,12 @@ footer {
   position:relative;
   height: 25rem;
   top:1.25rem;
-  left:-48.5rem;
+  left:-47.5rem;
   font-size: large;
 
 }
 .labels-edit-profile {
-  font-size: 12px;
+  font-size: .75rem;
   display: flex;
   text-align: left;
   margin-left: 0.5rem;
@@ -1124,7 +1124,7 @@ border-top-right-radius: 5px;
 }
 #photoUpload{
   position:relative;
-  left: -8rem;
+  left: -7rem;
   top:15.625rem;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -1132,7 +1132,8 @@ border-top-right-radius: 5px;
 #btnEditprofile{
   position:relative;
   top:18.75rem;
-  left:-56.372rem;
+  left:-52.372rem;
+  height: fit-content;
 }
 #btnEditprofile button:hover{
   background-color: var(--green3);
@@ -1158,14 +1159,14 @@ border-top-right-radius: 5px;
   top:2.5rem;
 }
 #profileImageHome{
-  width: 50px;
-  height: 50px;
+  width: 3.125rem;
+  height: 3.125rem;
   border-radius: 50%;
-margin-right: 10px;
+margin-right: .625rem;
 }
 #btnToEdit{
   position:relative;
-  top:-35px;
-  left:120px;
+  top: -2.1875rem;
+  left: 8.75rem;
   cursor:pointer;
 }

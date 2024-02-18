@@ -20,7 +20,7 @@ document.getElementById('registerButton').addEventListener('click',()=>{
 async function login(loginValue, passwordValue) {
     // Send GET request with username and password as query parameters
     try {
-        await fetch(`http://localhost:8080/my_scrum_backend_war_exploded/rest/user/login?username=${loginValue}&password=${passwordValue}`, {
+        await fetch(`http://localhost:8080/lexsilva-pedromont-proj2/rest/user/login?username=${loginValue}&password=${passwordValue}`, {
             method: 'GET',
             headers: {
                 'Accept': '*/*',
@@ -31,7 +31,6 @@ async function login(loginValue, passwordValue) {
         }).then(async function(response) {
             if (response.status === 200) {
                 // User is logged in successfully
-                alert('User is logged in successfully :)');
                 const userData = await response.json();
                 
                 // Store user data in sessionStorage
