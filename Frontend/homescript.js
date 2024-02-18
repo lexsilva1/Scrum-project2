@@ -95,16 +95,21 @@ document.getElementById('addTask').addEventListener('click', function() {
   var priority = taskPriority;
   var startdate = document.getElementById('startdate').value;
   var enddate = document.getElementById('enddate').value;
-  if (Name === '' || Description === '' || priority === null || startdate === '' || enddate === '') {
+  if (Name === '' || Description === '' || priority === null || startdate === '') {
     document.getElementById('warningMessage2').innerText = 'Fill in all fields and define a priority';
-  } else if (startdate > enddate) {
+  }else if(enddate !== ''){
+    if (startdate > enddate) {
     document.getElementById('warningMessage2').innerText = 'Start date must be before end date';
-  }else if(taskName.value.length > 20){
-      document.getElementById('warningMessage2').innerText = 'Task title must be less than 20 characters';
+    }
   } else {
     document.getElementById('warningMessage2').innerText = '';
   }
-  if (Name.trim() !== '' && Description.trim() !== '' && priority !== null && startdate !== '' && enddate !== '' && startdate <= enddate){
+  if (Name.trim() !== '' && Description.trim() !== '' && priority !== null && startdate !== ''){
+    if(enddate === ''){
+      enddate = '2199-12-31';
+    }
+    console.log('startdate',startdate);
+    console.log('enddate',enddate);
       const task = createTask(Name, Description, priority,startdate,enddate);
       postTask(task);
       // Limpar os input fields depois de adicionar a task
@@ -137,7 +142,7 @@ async function postTask(task) {
     },
     body: JSON.stringify(task)
   }).then(async function(response){
-    if (response.status === 200){
+    if (response.status === 201){
       const taskData= await response.json();
       task = {
         id: taskData.id,
@@ -164,6 +169,7 @@ async function postTask(task) {
 }
 
 function createTaskElement(task) {
+  console.log(task);
     const taskElement = document.createElement('div');
     taskElement.id = task.id;
     taskElement.priority = task.priority;
