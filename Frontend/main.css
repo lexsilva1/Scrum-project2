@@ -357,7 +357,7 @@ aside h3 {
 /* Botão add task */
 #addTask {
   text-align: center;
-  margin-top: 25px;
+  margin-top: 46px;
   width: 120px;
   height: 32px;
   text-transform: uppercase;
@@ -734,7 +734,7 @@ match ao arredondamento do painel (home.html) */
   height: fit-content;
   width: fit-content;
   align-self: center;
-  margin-top:1.5px;
+  margin-top:23.5px;
   
 .dateinput{
   margin: 5px;
