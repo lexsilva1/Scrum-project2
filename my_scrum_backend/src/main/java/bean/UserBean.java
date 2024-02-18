@@ -82,7 +82,6 @@ public class UserBean {
         for (User a : users) {
             if (a.getUsername().equals(username)) {
                 a.addTask(task);
-                System.out.println("++++++++++++++++++++"+task.getStartDate());
                 writeIntoJsonFile();
             }
         }
@@ -108,8 +107,6 @@ public class UserBean {
     public boolean isUserAuthorized(String username, String password){
         for (User a : users) {
             if (a.getUsername().equals(username) && a.getPassword().equals(password)) {
-                System.out.println("user e pass do user "+a.getUsername() + " " + a.getPassword());
-                System.out.println("items enviados "+username + " " + password);
                 return true;
             }
         }

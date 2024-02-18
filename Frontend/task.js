@@ -16,7 +16,9 @@ window.onload =async function () {
         document.getElementById('tasktitle').innerHTML = titulo; // Colocar o título no título da página
         document.getElementById("task-bc").textContent = titulo; // Colocar o título no breadcrumb
         document.getElementById("startdate").value = startdate; // Colocar a data de início no input startdate
+        if(enddate !== "2199-12-31"){
         document.getElementById("enddate").value = enddate; // Colocar a data de fim no input enddate
+    }
     }
 };
 
@@ -123,8 +125,7 @@ async function updateTask() {
          priority: sessionStorage.getItem("taskPriority"),
          startDate: document.getElementById('startdate').value,
          endDate: document.getElementById('enddate').value
-
-      };
+        };
    
      try {
        const response = await fetch('http://localhost:8080/lexsilva-pedromont-proj2/rest/user/updatetask', {
@@ -162,14 +163,20 @@ savebutton.addEventListener("click", () => {
     if (taskDescription === "" || taskTitle === "") {
         document.getElementById('warningMessage3').innerText = 'Your task must have a title and a description';
             return;
-    } else if (document.getElementById('startdate').value === "" || document.getElementById('enddate').value === "") {
-        document.getElementById('warningMessage3').innerText = 'Your task must have a start and end date';
+    } else if (document.getElementById('startdate').value === "" ) {
+        document.getElementById('warningMessage3').innerText = 'Your task must have a start date';
             return;
-    }else if (document.getElementById('startdate').value > document.getElementById('enddate').value) {
-        document.getElementById('warningMessage3').innerText = 'The start date must be before the end date';
-            return; 
+    }else if (document.getElementById('enddate').value !== "") {
+            if(document.getElementById('startdate').value > document.getElementById('enddate').value){
+            document.getElementById('warningMessage3').innerText = 'The start date must be before the end date';
+            return;
+    } 
     }
     else {
+        let enddate = document.getElementById('enddate').value;
+        if(enddate === ""){
+            document.getElementById('enddate').value = "2199-12-31";
+        }
         updateTask();
         // Limpa mensagem de erro
         document.getElementById('warningMessage3').innerText = '';
