@@ -1,0 +1,692 @@
+{
+	"info": {
+		"_postman_id": "c877859e-d931-4df2-8d08-4bdc0652eeab",
+		"name": "backend test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32787892",
+		"_collection_link": "https://red-meteor-114194.postman.co/workspace/Scrum-project2~08374329-8b56-4c2c-a8b0-77f95b572f06/collection/32787892-c877859e-d931-4df2-8d08-4bdc0652eeab?action=share&source=collection_link&creator=32787892"
+	},
+	"item": [
+		{
+			"name": "User tests",
+			"item": [
+				{
+					"name": "get Requests",
+					"item": [
+						{
+							"name": "request all users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Schema is valid\", function () {",
+											"  var schema = {",
+											"    type: \"array\",",
+											"    items: {",
+											"      type: \"object\",",
+											"      properties: {",
+											"        contactNumber: { type: \"string\" },",
+											"        email: { type: \"string\", format: \"email\" },",
+											"        name: { type: \"string\" },",
+											"        password: { type: \"string\" },",
+											"        tasks: { type: \"array\" },",
+											"        userPhoto: { type: \"string\" },",
+											"        username: { type: \"string\" }",
+											"      },",
+											"      required: [\"contactNumber\", \"email\", \"name\", \"password\", \"tasks\", \"userPhoto\", \"username\"]",
+											"    }",
+											"  };",
+											"",
+											"  var response = pm.response.json();",
+											"  pm.expect(tv4.validate(response, schema)).to.be.true;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\":\"2\",\n    \"name\": \"Julio\",\n    \"email\": \"roberto@mambo.com\",\n    \"username\": \"juliano\",\n    \"password\":\"123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/lexsilva-pedromont-proj2/rest/user/all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lexsilva-pedromont-proj2",
+										"rest",
+										"user",
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get username",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Name and username must be non-empty strings\", function () {",
+											"  const responseData = pm.response.json();",
+											"",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");",
+											"  pm.expect(responseData.username).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Username should not be empty\");",
+											"});",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"//wrong test on purpose",
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/lexsilva-pedromont-proj2/rest/user/jc",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lexsilva-pedromont-proj2",
+										"rest",
+										"user",
+										"jc"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getTasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Tasks array is present and has the expected number of elements\", function () {",
+											"    const responseData = pm.response.json();",
+											"",
+											"    pm.expect(responseData).to.be.an('array');",
+											"});",
+											"",
+											"",
+											"pm.test(\"Schema is valid\", function () {",
+											"  var schema = {",
+											"    type: \"array\",",
+											"  };",
+											"",
+											"  var response = pm.response.json();",
+											"  pm.expect(tv4.validate(response, schema)).to.be.true;",
+											"});",
+											"//wront test on purpose",
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "username",
+										"value": "jc",
+										"type": "text"
+									},
+									{
+										"key": "password",
+										"value": "2",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/lexsilva-pedromont-proj2/rest/user/tasks",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lexsilva-pedromont-proj2",
+										"rest",
+										"user",
+										"tasks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getPhoto",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Body matches string\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"https\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "username",
+										"value": "jc",
+										"type": "text"
+									},
+									{
+										"key": "password",
+										"value": "1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/lexsilva-pedromont-proj2/rest/user/photo",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lexsilva-pedromont-proj2",
+										"rest",
+										"user",
+										"photo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLogin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Status code is 404, username and password are not found for user\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "username",
+										"value": "jc",
+										"type": "text"
+									},
+									{
+										"key": "password",
+										"value": "2",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/lexsilva-pedromont-proj2/rest/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lexsilva-pedromont-proj2",
+										"rest",
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get Logout",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200, username exists and logs out\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Status code is 405, username and password are incorrect\", function () {",
+											"    pm.response.to.have.status(405);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "username",
+										"value": "jc",
+										"type": "text"
+									},
+									{
+										"key": "password",
+										"value": "1",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/lexsilva-pedromont-proj2/rest/user/logout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lexsilva-pedromont-proj2",
+										"rest",
+										"user",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "post requests",
+					"item": [
+						{
+							"name": "add user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200, parameters are ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Status code is 409, username already exists\", function () {",
+											"    pm.response.to.have.status(409);",
+											"});",
+											"//resultado quando username já existe",
+											"pm.test(\"Status code is 400, user attributes are not ok\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\":\"30\",\n    \"username\":\"teste12\",\n    \"name\": \"nomeTeste8\",\n    \"email\":\"emailTeste8@teste.pt\",\n    \"password\":\"1\",\n    \"contactNumber\": \"91numeroteste8\",\n    \"userPhoto\": \"https://ebaluminio.com.br/wp-content/uploads/2018/07/4-RAL6005BR-COD.VE6005B00.jpg\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/lexsilva-pedromont-proj2/rest/user/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lexsilva-pedromont-proj2",
+										"rest",
+										"user",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200, task was added sucessfully\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Status code is 404, user with this username was not found\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"pm.test(\"Status code is 405, user is not authorized\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "username",
+										"value": "teste3",
+										"type": "text"
+									},
+									{
+										"key": "password",
+										"value": "1",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\":\"taskTeste\",\n    \"title\":\"TituloTeste\",\n    \"description\":\"DescriçãoTeste\",\n    \"status\":\"10\",\n    \"priority\":\"100\",\n    \"startDate\":\"1992-10-25\",\n    \"endDate\":\"1995-12-13\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/lexsilva-pedromont-proj2/rest/user/addtask",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lexsilva-pedromont-proj2",
+										"rest",
+										"user",
+										"addtask"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "put requests",
+					"item": [
+						{
+							"name": "updateUser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"password is present in the request headers\", function () {",
+											"    pm.request.headers.has(\"password\");",
+											"});",
+											"",
+											"pm.test(\"username is present in the request headers\", function () {",
+											"    pm.request.headers.has(\"username\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "username",
+										"value": "jc",
+										"type": "text"
+									},
+									{
+										"key": "password",
+										"value": "1",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\":\"20\",\n    \"name\": \"nomeTeste2\",\n    \"email\":\"emailTeste2@teste.pt\",\n    \"password\":\"1\",\n    \"contactNumber\": \"91numeroteste2\",\n    \"userPhoto\": \"https://i.ebayimg.com/images/g/B~gAAOSwhNthhdjn/s-l1600.jpg\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/lexsilva-pedromont-proj2/rest/user/update",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lexsilva-pedromont-proj2",
+										"rest",
+										"user",
+										"update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "username",
+										"value": "jc",
+										"type": "text"
+									},
+									{
+										"key": "password",
+										"value": "1",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\":\"taskTesteEditado\",\n    \"title\":\"TituloTesteEditado\",\n    \"description\":\"DescriçãoTeste\",\n    \"status\":\"20\",\n    \"priority\":\"100\",\n    \"startDate\":\"1992-10-25\",\n    \"endDate\":\"1995-12-13\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/lexsilva-pedromont-proj2/rest/user/updatetask",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lexsilva-pedromont-proj2",
+										"rest",
+										"user",
+										"updatetask"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "delete requests",
+					"item": [
+						{
+							"name": "delete task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"password is present in the request headers\", function () {",
+											"    pm.request.headers.has(\"password\");",
+											"});",
+											"",
+											"pm.test(\"id is present in the request headers\", function () {",
+											"    pm.request.headers.has(\"id\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "username",
+										"value": "jc",
+										"type": "text"
+									},
+									{
+										"key": "password",
+										"value": "1",
+										"type": "text"
+									},
+									{
+										"key": "id",
+										"value": "task303.55373790529706",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/lexsilva-pedromont-proj2/rest/user/removetask",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lexsilva-pedromont-proj2",
+										"rest",
+										"user",
+										"removetask"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
